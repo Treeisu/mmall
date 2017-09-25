@@ -7,17 +7,234 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>mmall Maven Webapp</name>
   <url>http://maven.apache.org</url>
+  <properties>
+  	<!-- 编码配置参数 -->
+  	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  	<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+  	<!-- spring等版本配置参数 -->
+  	<org.springframework.version>4.0.0.RELEASE</org.springframework.version>
+  	<org.mybaties.version>3.4.1</org.mybaties.version>
+  	<org.mybaties.spring.version>1.3.0</org.mybaties.spring.version>
+  </properties>
+  <!-- 下面开始添加依赖 -->
   <dependencies>
+  	<!-- 单元测试jar -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
+    <!-- spring测试jar包 -->
+	<dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${org.springframework.version}</version>
+	</dependency>
+    <!-- servlet的jar -->
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-servlet-api</artifactId>
+      <version>7.0.64</version>
+    </dependency>
+    <!-- webmvc层的一个jar -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${org.springframework.version}</version>
+	</dependency>
+	<!-- json序列化与反序列化需要的jar -->
+	<dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.9.12</version>
+	</dependency>
+	<!-- spring注解需要的jar -->
+	<dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-oxm</artifactId>
+      <version>${org.springframework.version}</version>
+	</dependency>
+	<!-- 原始连接数据库jdbc -->
+	<dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>${org.springframework.version}</version>
+	</dependency>
+	<!-- spring事务jar -->
+	<dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+      <version>${org.springframework.version}</version>
+	</dependency>
+	<!-- AOP需要的jar -->
+	<dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>1.7.3</version>
+	</dependency>
+	<dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.6.11</version>
+	</dependency>
+	<!-- mybatis的jar -->
+	<dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis</artifactId>
+      <version>${org.mybaties.version}</version>
+	</dependency>
+	<!-- spring整合mybatis的jar -->
+	<dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis-spring</artifactId>
+      <version>${org.mybaties.spring.version}</version>
+	</dependency>
+	<!-- mybatis分页插件的jar 3个jar-->
+	<dependency>
+      <groupId>com.github.pagehelper</groupId>
+      <artifactId>pagehelper</artifactId>
+      <version>4.1.0</version>
+	</dependency>
+	<dependency>
+      <groupId>com.github.miemiedev</groupId>
+      <artifactId>mybatis-paginator</artifactId>
+      <version>1.2.17</version>
+	</dependency>
+	<dependency>
+      <groupId>com.github.jsqlparser</groupId>
+      <artifactId>jsqlparser</artifactId>
+      <version>0.9.4</version>
+	</dependency>
+    <!-- 数据库连接池jar -->
+	<dependency>
+      <groupId>commons-dbcp</groupId>
+      <artifactId>commons-dbcp</artifactId>
+      <version>1.4</version>
+	</dependency>
+	<!-- logback日志ajr -->
+	<dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <version>1.1.2</version>
+      <scope>compile</scope>
+	</dependency>
+	<dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.1.2</version>
+      <scope>compile</scope>
+	</dependency>
+	<!-- mysql驱动jar -->
+	<dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.6</version>
+	</dependency>
+	<!-- 该jar提供了丰富的工具类以及各种数据结构 -->
+	<dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>20.0</version>
+	</dependency>
+	<!-- Apache的工具类 -->
+	<dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.5</version>
+	</dependency>
+	<!-- 集合工具类 -->
+	<dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.2.1</version>
+	</dependency>
+	<!-- 时间处理的jar包 -->
+	<dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>2.3</version>
+	</dependency>
+	<!-- id加密工具jar包 -->
+	<dependency>
+      <groupId>org.hashids</groupId>
+      <artifactId>hashids</artifactId>
+      <version>1.0.1</version>
+	</dependency>
+	<!-- redis的java客户端 jedis -->
+	<dependency>
+	    <groupId>redis.clients</groupId>
+	    <artifactId>jedis</artifactId>
+	    <version>2.9.0</version>
+	</dependency>
+	<!-- 上传到ftp服务器的client的jar -->
+	<dependency>
+      <groupId>commons-net</groupId>
+      <artifactId>commons-net</artifactId>
+      <version>3.1</version>
+	</dependency>
+	<!-- 上传文件需要的jar -->
+	<dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.2.2</version>
+	</dependency>
+	<dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.0.1</version>
+	</dependency>
+	<!-- 连接支付宝需要的jar -->
+	<dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.10</version>
+	</dependency>
+	<dependency>
+      <groupId>commons-configuration</groupId>
+      <artifactId>commons-configuration</artifactId>
+      <version>1.10</version>
+	</dependency>
+	<dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+	</dependency>
+	<dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.1.1</version>
+	</dependency>
+	<dependency>
+      <groupId>com.google.zxing</groupId>
+      <artifactId>core</artifactId>
+      <version>2.1</version>
+	</dependency>
+	<dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.3.1</version>
+	</dependency>
+	<dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-core</artifactId>
+      <version>1.3</version>
+	</dependency>	
   </dependencies>
   <build>
     <finalName>mmall</finalName>
     <plugins>
+    	<!-- 这个插件会根据数据库配置去生成dao层结构 -->
+    	<plugin>
+  			<groupId>org.mybatis.generator</groupId>
+			<artifactId>maven-generator-maven-plugin</artifactId>
+			<version>1.3.2</version>
+			<configuration>
+				<verbos>true</verbos>
+				<overwrite>true</overwrite>
+			</configuration>
+  		</plugin>
    		<!--使用插件：强制使用jdk1.7编译maven项目 -->
   		<plugin>
   			<groupId>org.apache.maven.plugins</groupId>
@@ -27,6 +244,10 @@
 				<source>1.7</source>
 				<target>1.7</target>
 				<encoding>UTF-8</encoding>
+				<!-- 此配置可以把lib下面的包在编译时加入进来  ！！！！！！！！如果不加此配置，发布至服务器上会找不到jar包-->
+				<compilerArguments>
+					<extdirs>${project.basedir}/src/main/webapp/WEB-INF/lib</extdirs>
+				</compilerArguments>
 			</configuration>
   		</plugin>
   	</plugins>
