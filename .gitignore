@@ -1,1 +1,49 @@
-/target/
+#there are something not to upload git
+
+
+#class file
+*。class
+
+
+#package file 
+*。war
+*。ear
+
+
+#kdiff3 file 
+*.orig
+
+
+#maven file 
+target/
+
+
+#eclipse file 
+.settings/
+.project
+.classpath
+
+
+#idea file 
+.idea/
+/idea/
+*.ipr
+*.iml
+*.iws
+
+
+#temp files;such as log file
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+
+
+#system files
+.DS_store
+Thumbs.db
+
+
+
+
