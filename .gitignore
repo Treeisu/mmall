@@ -2,12 +2,12 @@
 
 
 #class file
-*。class
+*.class
 
 
 #package file 
-*。war
-*。ear
+*.war
+*.ear
 
 
 #kdiff3 file 
