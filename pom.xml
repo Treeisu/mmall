@@ -225,7 +225,7 @@
   <build>
     <finalName>mmall</finalName>
     <plugins>
-    	<!-- 这个插件会根据数据库配置去生成dao层结构 -->
+    	<!-- 这个插件会根据数据库配置去生成mybatis的xml、pojo、dao层接口结构 -->
     	<plugin>
   			<groupId>org.mybatis.generator</groupId>
 			<artifactId>maven-generator-maven-plugin</artifactId>

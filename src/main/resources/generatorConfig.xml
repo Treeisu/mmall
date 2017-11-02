@@ -6,7 +6,7 @@
 <generatorConfiguration>
 	<!-- 需要的属性配置文件，比如连接数据库的账号密码。。。 -->
 	<properties resource="datesource.properties" />
-	<!-- 指定数据库驱的jdbc驱动的jar包位置 -->
+	<!--需要指定数据库驱的jdbc驱动的jar包位置 -->
 	<classPathEntry location="${db.driverLocation}"/>
 	<context id="sqlserverTables" targetRuntime="MyBatis3">
 		<!-- 生成的pojo，将implements Serializable -->
@@ -17,15 +17,11 @@
 			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
 			<property name="suppressAllComments" value="true" />
 		</commentGenerator>
-
 		<!-- 数据库链接URL、用户名、密码 -->
-		<jdbcConnection driverClass="${db.driverClassName}" 
-						connectionURL="${db.url}" userId="${db.username}" 
+		<jdbcConnection driverClass="${db.driverClassName}" connectionURL="${db.url}" userId="${db.username}" 
 						password="${db.password}">
 		</jdbcConnection>
-
-		<!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer true，把JDBC DECIMAL 和 
-			NUMERIC 类型解析为java.math.BigDecimal -->
+		<!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer true，把JDBC DECIMAL 和 NUMERIC 类型解析为java.math.BigDecimal -->
 		<javaTypeResolver>
 			<property name="forceBigDecimals" value="false" />
 		</javaTypeResolver>
@@ -33,7 +29,7 @@
 		<!-- 生成model模型，对应的包路径，以及文件存放路径(targetProject)，targetProject可以指定具体的路径,如./src/main/java， 
 			也可以使用“MAVEN”来自动生成，这样生成的代码会在target/generatord-source目录下 -->
 		<!--<javaModelGenerator targetPackage="com.joey.mybaties.test.pojo" targetProject="MAVEN"> -->
-		<javaModelGenerator targetPackage="com.mmall.pojo" targetProject="./src/main/java">
+		<javaModelGenerator targetPackage="com.mmall.pojo" targetProject="../src/main/java">
 			<!-- 是否生成子包 -->
 			<property name="enableSubPackages" value="false" />
 			<!-- 对数据库返回的char类型的值会进行trim操作（删除前后空格）-->
@@ -42,13 +38,13 @@
 			<property name="immutable" value="false"/>
 		</javaModelGenerator>
 
-		<!--指定生成的mapper文件在resource下面的mapper文件夹下 -->
-		<sqlMapGenerator targetPackage="mappers" targetProject="./src/main/resources">
+		<!--指定生成的mapper文件在resource下面的mappers文件夹下 -->
+		<sqlMapGenerator targetPackage="mappers" targetProject="../src/main/resources">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 
 		<!-- 对应的Mapper接口类文件 即：dao层增删改java类 -->
-		<javaClientGenerator type="XMLMAPPER" targetPackage="com.mmall.dao" targetProject="./src/main/java">
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.mmall.dao" targetProject="../src/main/java">
 			<!-- 是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />
 		</javaClientGenerator>
@@ -63,7 +59,7 @@
 		<table tableName="mmall_order_item" domainObjectName="OrderItem" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
 		<table tableName="mmall_pay_info" domainObjectName="PayInfo" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
 		<table tableName="mmall_product" domainObjectName="Product" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
-			<!-- 这两个列在数据库中是text类型存在的，那么在生成实体类时，需要转化成jdbc的varchar，那么就可以最终转化成String类型 -->
+			<!-- 这两个列在数据库中是text类型存在的，此类型没有对应的java类型，所以转化为varvhar之后再生成实体类时，那么就可以最终转化成String类型 -->
 			<columnOverride column="detail" jdbcType="VARCHAR"></columnOverride>
 			<columnOverride column="sub_image" jdbcType="VARCHAR"></columnOverride>
 		</table>
