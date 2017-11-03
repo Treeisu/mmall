@@ -29,7 +29,7 @@
 		<!-- 生成model模型，对应的包路径，以及文件存放路径(targetProject)，targetProject可以指定具体的路径,如./src/main/java， 
 			也可以使用“MAVEN”来自动生成，这样生成的代码会在target/generatord-source目录下 -->
 		<!--<javaModelGenerator targetPackage="com.joey.mybaties.test.pojo" targetProject="MAVEN"> -->
-		<javaModelGenerator targetPackage="com.mmall.pojo" targetProject="../src/main/java">
+		<javaModelGenerator targetPackage="com.mmall.pojo" targetProject="mmall Maven Webapp">
 			<!-- 是否生成子包 -->
 			<property name="enableSubPackages" value="false" />
 			<!-- 对数据库返回的char类型的值会进行trim操作（删除前后空格）-->
@@ -39,12 +39,12 @@
 		</javaModelGenerator>
 
 		<!--指定生成的mapper文件在resource下面的mappers文件夹下 -->
-		<sqlMapGenerator targetPackage="mappers" targetProject="../src/main/resources">
+		<sqlMapGenerator targetPackage="mappers" targetProject="mmall Maven Webapp">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 
 		<!-- 对应的Mapper接口类文件 即：dao层增删改java类 -->
-		<javaClientGenerator type="XMLMAPPER" targetPackage="com.mmall.dao" targetProject="../src/main/java">
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.mmall.dao" targetProject="mmall Maven Webapp">
 			<!-- 是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />
 		</javaClientGenerator>
