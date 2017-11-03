@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+	<!-- append1：级别大于debug的 都会控制台打印出来-->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoding>UTF-8</encoding>
+		<encoder>
+			<pattern>[%d{HH:mm:ss.SSS}] [%p] [%c{40}] [%t] %m%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+	</appender>
+	
+	<!-- append2：项目日志-->
+	<appender name="mmall Maven Webapp" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File></File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名 -->
+            <FileNamePattern>${LOG_HOME}/NTY-CORE-ERROR-%d{yyyy-MM-dd}-%i.log</FileNamePattern>
+            <!--日志文件保留天数 -->
+            <MaxHistory>30</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>1024MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level： 级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} |%-5level |NTY|NA|%thread|%logger{50} -%msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+	
+	
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->
+    <substitutionProperty name="LOG_HOME" value="/app/ntytest/logs/" />
+    <property name="log.root.level" value="DEBUG" /> <!-- 日志级别 -->
+    <property name="log.other.level" value="INFO" /> <!-- 其他日志级别 -->
+    <property name="log.base" value="logs" /> <!-- 日志路径 -->
+     <!-- 模块名称， 影响日志配置名，日志文件名 -->
+    <property name="log.moduleName" value="ntytest" /> 
+    <property name="log.max.size" value="100MB" /> <!-- 日志文件大小 -->
+
+    <contextName>ntytest</contextName>
+    <jmxConfigurator />
+
+    <!-- 配置控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern><![CDATA[%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] [%X{lsf.requestNo}|%X{lsf.consumerIp}] %logger{56}.%method\(\):%L - %msg%n]]></pattern>
+        </layout>
+    </appender>
+
+    <!-- 按照每天生成日志文件，当日志文件大小超过1024M，则新建一个 -->
+    <appender name="FILE"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoding>UTF-8</encoding>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名 -->
+            <FileNamePattern>${LOG_HOME}/NTY-CORE-SERVER-%d{yyyy-MM-dd}-%i.log
+            </FileNamePattern>
+            <!--日志文件保留天数 -->
+            <MaxHistory>30</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>1024MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+    <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：
+    级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} |%-5level |NTY|NA|%thread|
+                %logger{50} -
+                %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 配置错误日志，filter设置日志级别为ERROR -->
+    <appender name="ERROR-FILE"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoding>UTF-8</encoding>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名 -->
+            <FileNamePattern>${LOG_HOME}/NTY-CORE-ERROR-%d{yyyy-MM-dd}-%i.log
+            </FileNamePattern>
+            <!--日志文件保留天数 -->
+            <MaxHistory>30</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>1024MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：
+            级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} |%-5level |NTY|NA|%thread|
+                %logger{50} -
+                %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 配置monitor日志，主要用于公司发送告警邮件，设置logger即可，
+    调用：Logger logger = LoggerFactory.getLogger("MONITOR"); 
+        就能把日志打印到monitor文件中。
+     -->
+    <appender name="MONITOR-FILE"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoding>UTF-8</encoding>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名 -->
+            <FileNamePattern>${LOG_HOME}/NTY-CORE-MONITOR-%d{yyyy-MM-dd}-%i.log
+            </FileNamePattern>
+            <!--日志文件保留天数 -->
+            <MaxHistory>30</MaxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>1024MB</MaxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：
+            级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} |%-5level |NTY|NA|%thread|
+                %logger{50}|NA|
+                %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 配置monitor日志输出 -->
+    <logger name="MONITOR">
+        <appender-ref ref="MONITOR-FILE" />
+    </logger>
+
+    <!-- root也是一个<logger>元素，只是这个是根，默认日志输出到此appender-ref文件中 -->
+    <root level="${log.level}">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+        <appender-ref ref="ERROR-FILE" />
+    </root>
+</configuration>

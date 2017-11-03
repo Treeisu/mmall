@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"     
+       xmlns:aop="http://www.springframework.org/schema/aop"     
+       xmlns:context="http://www.springframework.org/schema/context"    
+       xmlns:mvc="http://www.springframework.org/schema/mvc"     
+       xmlns:tx="http://www.springframework.org/schema/tx"     
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"    
+       xsi:schemaLocation="http://www.springframework.org/schema/aop     
+        http://www.springframework.org/schema/aop/spring-aop.xsd     
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd     
+        http://www.springframework.org/schema/context     
+        http://www.springframework.org/schema/context/spring-context.xsd     
+        http://www.springframework.org/schema/mvc     
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd     
+        http://www.springframework.org/schema/tx     
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+        <!-- default-autowire="byName" -->
+  		<mvc:annotation-driven /> 
+  		<context:component-scan base-package="com.mmall"/>
+  		
+  		<!-- 加载DataSource连接数据库的资源文件 -->
+  		<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+  			<property name="order" value="2"></property>
+  			<property name="ignoreUnresolvablePlaceholders" value="true"></property>
+  			<property name="locations">
+  				<list>
+  					<value>classpath:datesource.properties</value>
+  				</list>
+  			</property>
+  			<property name="fileEncoding" value="utf-8"></property>
+  		</bean>  		
+		<!--开始进行datesource数据库连接池配置-->
+		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" lazy-init="false">
+			<property name="driverClassName" value="${db.driverClassName}" />
+			<property name="url" value="${db.url}" />
+			<property name="username" value="${db.username}" />
+			<property name="password" value="${db.password}" />
+			<!--maxActive: 最大连接数量 -->
+			<property name="maxActive" value="${jdbc.maxActive}" />
+			<!--minIdle: 最小空闲连接 -->
+			<property name="minIdle" value="${jdbc.minIdle}" />
+			<!--maxIdle: 最大空闲连接 -->
+			<property name="maxIdle" value="${jdbc.maxIdle}" />
+			<!--initialSize: 初始化连接 -->
+			<property name="initialSize" value="${jdbc.initialSize}" />
+			<!-- 连接被泄露时是否打印 -->
+			<property name="logAbandoned" value="${jdbc.logAbandoned}" />
+			<!--removeAbandoned: 是否自动回收超时连接 -->
+			<property name="removeAbandoned" value="${jdbc.removeAbandoned}" />
+			<!--removeAbandonedTimeout: 超时时间(以秒数为单位) -->
+			<property name="removeAbandonedTimeout" value="${jdbc.removeAbandonedTimeout}" />
+			<!--maxWait: 超时等待时间以毫秒为单位 1000等于60秒 -->
+			<property name="maxWait" value="${jdbc.maxWait}" />
+			<!-- 在空闲连接回收器线程运行期间休眠的时间值,以毫秒为单位. -->
+			<property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}" />
+			<!-- 在每次空闲连接回收器线程(如果有)运行时检查的连接数量 -->
+			<property name="numTestsPerEvictionRun" value="${jdbc.numTestsPerEvictionRun}" />
+			<!-- 1000 * 60 * 30 连接在池中保持空闲而不被空闲连接回收器线程 -->
+			<property name="minEvictableIdleTimeMillis" value="${jdbc.minEvictableIdleTimeMillis}" />
+			<property name="validationQuery" value="${jdbc.validationQuery}" />
+		</bean>
+  		
+  		<!--配置关于mybsties的session工厂-->	
+		<bean id="sessionFactory"  class="org.mybatis.spring.SqlSessionFactoryBean">
+ 			<!--把连接池注入到session工厂-->
+			<property name="dataSource" ref="dataSource" />
+			<!--将mapper文件注入到sessionfactory-->
+			<property name="mapperLocations" ref="classpath*:mappers/*Mapper.xml" />
+			<!-- 整合分页插件功能 -->
+			<property name="plugins">
+				<array>
+					<bean class="com.github.pagehelper.PageHelper">
+						<property name="properties">
+							<value>dialect=mysql</value>
+						</property>
+					</bean>
+				</array>
+			</property>
+		</bean>
+		
+		<!--扫描dao层接口将dao层添加进来 -->
+		<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+			<property name="basePackage" value="com.mmall.dao"/>
+		</bean>
+		
+		<!-- 添加声明式事务控制 【表示启用事务注解】-->
+		<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>		
+		<!-- 事务管理配置【表示碰到事务该怎么处理】 -->
+		<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+			<property name="dataSource" ref="dataSource"/>
+			<property name="rollbackOnCommitFailure" value="true"/>
+		</bean>
+</beans>

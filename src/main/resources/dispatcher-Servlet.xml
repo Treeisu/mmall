@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"     
+       xmlns:aop="http://www.springframework.org/schema/aop"     
+       xmlns:context="http://www.springframework.org/schema/context"    
+       xmlns:mvc="http://www.springframework.org/schema/mvc"     
+       xmlns:tx="http://www.springframework.org/schema/tx"     
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"    
+       xsi:schemaLocation="http://www.springframework.org/schema/aop     
+        http://www.springframework.org/schema/aop/spring-aop.xsd     
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd     
+        http://www.springframework.org/schema/context     
+        http://www.springframework.org/schema/context/spring-context.xsd     
+        http://www.springframework.org/schema/mvc     
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd     
+        http://www.springframework.org/schema/tx     
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+        <!--第一步：开启注解功能，扫描Controller下的类，加载controller的注解类-->
+		<mvc:annotation-driven />
+        <context:component-scan base-package="com.mmall" />
+       
+    	<!-- 文件上传-->
+		<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+			<property name="maxUploadSize" value="10485760"></property><!-- 最大上传10M -->
+			<property name="maxInMemorySize" value="4046"></property>
+			<property name="defaultEncoding" value="UTF-8"></property>
+		</bean>
+		<!-- 读取配置文件 -->
+		<bean class="org.jiang.COC.common.PropertiesUtil">
+			<property name="location">
+				<value>classpath:mypath.properties</value>
+			</property>
+		</bean>
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	 <!--第二步：进行前端页面资源过滤，引用静态资源这样在页面引入js、css等文件的路径填写js/test.js这样就好了-->
+		<!-- <mvc:resources location="/resources/js/" mapping="/js/**" />
+		<mvc:resources location="/resources/js/common" mapping="/js/common/**" />
+		<mvc:resources location="/resources/css/" mapping="/css/**" />
+		<mvc:resources location="/resources/css/common" mapping="/css/common/**" />
+		<mvc:resources location="/resources/img/" mapping="/img/**" />
+		<mvc:resources location="/resources/headphotos/" mapping="/headphotos/**" />
+		<mvc:resources location="/resources/music/" mapping="/music/**" /> -->
+        <!--第三步：配置前缀和后缀，这样controller中return的跳转页面就可以直接写名字，并且不用加.jsp结尾-->
+		<!--controller中return的页面都会在/WEB-INF/jsp/*.jsp去寻找对应的jsp文件-->
+    	<!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+	        <property name="prefix" value="/jsp/"/>
+	        <property name="suffix" value=".jsp"/>
+    	</bean> -->
+</beans>
