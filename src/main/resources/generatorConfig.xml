@@ -38,7 +38,7 @@
 			<property name="immutable" value="false"/>
 		</javaModelGenerator>	
 		<!--指定生成的mapper文件在resource下面的mappers文件夹下 -->
-		<sqlMapGenerator targetPackage="mappers" targetProject="mmall Maven Webapp/src/main/resources">
+		<sqlMapGenerator targetPackage="sqlMappers" targetProject="mmall Maven Webapp/src/main/resources">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>	
 		<!-- 对应的Mapper接口类文件 即：dao层增删改java类 -->
