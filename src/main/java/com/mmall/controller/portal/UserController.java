@@ -42,7 +42,7 @@ public class UserController {
 	public ServerResponse<User> login(String username,String password,HttpSession session){
 		ServerResponse<User> response=iuserService.login(username, password);
 		if(response.isSuccess()){
-			session.setAttribute("", "");
+			session.setAttribute(Const.CURRENT_USER,response.getDate());
 		}
 		return null;
 		
