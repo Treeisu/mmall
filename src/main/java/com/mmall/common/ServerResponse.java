@@ -67,6 +67,11 @@ public class ServerResponse<T> implements Serializable{
 	public boolean isSuccess(){
 		return this.status==ResponseCode.SUCCESS.getCode();
 	}
+	//判断请求是否成功
+	@JsonIgnore //此注解表示，此方法在对status初始化时，使之不在序列化之中，不会返回给前端
+	public boolean isError(){
+		return this.status==ResponseCode.ERROR.getCode();
+	}
 	public static <T> ServerResponse<T> createBySuccess(){
 		return new ServerResponse<T>(ResponseCode.SUCCESS.getCode());		
 	}
