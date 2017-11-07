@@ -41,8 +41,7 @@
 	<!-- servlet：springMVC的配置，dispatcherServlet拦截所有请求-->
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-      	<load-on-startup>1</load-on-startup>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>      	
 	    <init-param>
 	      		<!-- 其中<param-value>**.xml</param-value> 这里可以使用多种写法   -->
 	            <!-- 1、不写,使用默认值:/WEB-INF/<servlet-name>-servlet.xml   -->
@@ -52,6 +51,7 @@
 				<param-name>contextConfigLocation</param-name>
 				<param-value>classpath:dispatcher-Servlet.xml</param-value>
 		</init-param>
+		<load-on-startup>1</load-on-startup>
  	</servlet>
 	<servlet-mapping>
 			<servlet-name>springMVC</servlet-name>
