@@ -38,7 +38,7 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<!-- <param-value>/WEB-INF/applicationContext.xml</param-value> -->
-		<param-value>classpath*:applicationContext.xml</param-value>
+		<param-value>classpath:applicationContext.xml</param-value>
 	</context-param>
  	
 	<!-- servlet：springMVC的配置，dispatcherServlet拦截所有请求-->
@@ -53,7 +53,7 @@
 	            <!-- 3、<param-value>classpath*:dispatcher-servlet.xml</param-value>   -->
 	            <!-- 4、多个值用逗号分隔   -->
 				<param-name>contextConfigLocation</param-name>
-				<param-value>classpath*:dispatcher-Servlet.xml</param-value>
+				<param-value>classpath:dispatcher-Servlet.xml</param-value>
 		</init-param>
  	</servlet>
 	<servlet-mapping>

@@ -17,6 +17,10 @@ import com.mmall.util.MD5Util;
 public class UserServiceImpl implements IUserService {
 	@Autowired
 	private  UserMapper userMapper;
+	
+	/**
+	 * 用户登录
+	 */
 	@Override
 	public ServerResponse<User> login(String username, String password) {
 		if(userMapper.checkUsername(username)==0){
@@ -32,7 +36,7 @@ public class UserServiceImpl implements IUserService {
 		return ServerResponse.createBySuccessMessage("登录成功", user);
 	}
 	/**
-	 * 用户登录
+	 * 用户注册
 	 */
 	@Override
 	public ServerResponse<String> register(User user) {
@@ -114,7 +118,7 @@ public class UserServiceImpl implements IUserService {
 		}
 	}
 	/**
-	 * 回答密保问题
+	 * 忘记密码回答密保问题
 	 */
 	@Override
 	public ServerResponse<String> checkAnswer(String username, String question, String answer) {
@@ -132,7 +136,7 @@ public class UserServiceImpl implements IUserService {
 		}		
 	}
 	/**
-	 * 重置密码
+	 * 忘记密码重置密码
 	 */
 	@Override
 	public ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken) {
@@ -166,6 +170,66 @@ public class UserServiceImpl implements IUserService {
 				}				
 			}		
 		}
+	}
+	/**
+	 * 登录重置密码
+	 */
+	@Override
+	public ServerResponse<String> resetPassword(String passwordOld, String passwordNew,User user) {
+		// TODO Auto-generated method stub
+		//防止横向越权而校验旧密码   需要根据用户id和密码查询记录
+		int num=userMapper.checkPassword(MD5Util.MD5EncodeUtf8(passwordOld), user.getId());
+		if(num==0){//没有查询到记录，说明旧密码错误
+			return ServerResponse.createByErrorMessage("原密码输入错误，修改密码失败");
+		}else{
+			user.setPassword(MD5Util.MD5EncodeUtf8(passwordNew));
+			//进行更新，返回影响行数
+			int rowCount=userMapper.updateByPrimaryKeySelective(user);
+			if(rowCount>0){
+				return ServerResponse.createBySuccessMessage("密码修改成功");
+			}else{
+				return ServerResponse.createByErrorMessage("数据库写入异常，密码修改失败");
+			}
+		}
+	}
+	/**
+	 * 更新用户个人信息
+	 */
+	@Override
+	public ServerResponse<User> updateInformation(User user) {
+		// TODO Auto-generated method stub		
+		//email 校验新的email是否被他人占用
+		int num=userMapper.checkEmailUserId(user.getEmail(), user.getId());
+		if(num>0){//查询到记录 说明该email被其他人占用了
+			return ServerResponse.createByErrorMessage("该邮箱已被其他账号占用");
+		}else{
+			//将重新new一个user对象 只更新对应的字段，减少数据库压力
+			User updateUser=new User();
+			updateUser.setId(user.getId());
+			updateUser.setEmail(user.getEmail());
+			updateUser.setPhone(user.getPhone());
+			updateUser.setQuestion(user.getQuestion());
+			updateUser.setAnswer(user.getAnswer());
+			//返回影响行数
+			int rowCount=userMapper.updateByPrimaryKeySelective(updateUser);
+			if(rowCount>0){
+				user=userMapper.selectByPrimaryKey(user.getId());
+				user.setPassword(StringUtils.EMPTY);
+				return ServerResponse.createBySuccessMessage("个人信息更新成功",user);
+			}else{
+				return ServerResponse.createByErrorMessage("数据库写入异常，个人信息更新失败");
+			}
+		}
+	}
+	@Override
+	public ServerResponse<User> getInformation(int userId) {
+		// TODO Auto-generated method stub
+		User u=userMapper.selectByPrimaryKey(userId);
+		if(u==null){
+			return ServerResponse.createByErrorMessage("当前用户信息未查询到，请重新登陆");
+		}
+		u.setPassword(StringUtils.EMPTY);
+		return ServerResponse.createBySuccessMessage("查询到用户个人信息", u);
 	}		
 	
 	

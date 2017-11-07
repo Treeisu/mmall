@@ -5,7 +5,7 @@
 <configuration>
 	<!-- 子节点1：用来定义变量值，它有两个属性name和value，通过<property>定义的值会被插入到logger上下文中，可以使“${}”来使用变量。 -->
 	<property name="Local_Home" value="E:/logs/mmall" />
-	<property name="LOG_PATH" value="logs" />
+	<property name="LOG_PATH" value="${Local_Home}/logs" />
     <property name="LOG_ARCHIVE" value="${LOG_PATH}/archive" />
     <timestamp key="timestamp-by-second" datePattern="yyyyMMdd'T'HHmmss"/>
 	<!-- 子节点2：用来设置上下文名称，用于区分不同应用程序的记录。每个logger都关联到logger上下文，默认上下文名称为default。一旦设置，不能修改。 -->

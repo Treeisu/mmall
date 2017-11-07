@@ -69,6 +69,19 @@ public interface UserMapper {
      * @throws
      */
     int checkAnswer(@Param("username")String username,@Param("question")String question,@Param("answer")String answer);
-    
+    /**
+     * 忘记密码更新密码
+     * @Title: updatePasswordByUsername
+     * @Description: TODO
+     * @param @param username
+     * @param @param passwordNew
+     * @param @return    
+     * @return int    
+     * @throws
+     */
     int updatePasswordByUsername(@Param("username")String username,@Param("password")String passwordNew);
+    
+    int checkPassword(@Param("password")String password,@Param("userId")Integer userId);
+    
+    int checkEmailUserId(@Param("email")String email,@Param("userId")Integer userId);
 }
