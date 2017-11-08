@@ -6,15 +6,15 @@
        xmlns:tx="http://www.springframework.org/schema/tx"     
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"    
        xsi:schemaLocation="http://www.springframework.org/schema/aop     
-        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd     
+        http://www.springframework.org/schema/aop/spring-aop-3.1.xsd     
         http://www.springframework.org/schema/beans     
-        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd     
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd     
         http://www.springframework.org/schema/context     
-        http://www.springframework.org/schema/context/spring-context-3.2.xsd     
+        http://www.springframework.org/schema/context/spring-context-3.1.xsd     
         http://www.springframework.org/schema/mvc     
-        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd     
+        http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd     
         http://www.springframework.org/schema/tx     
-        http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+        http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
   		<mvc:annotation-driven />
   		<!-- 加载DataSource连接数据库的资源文件 -->
   		<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -34,27 +34,27 @@
 			<property name="username" value="${db.username}" />
 			<property name="password" value="${db.password}" />
 			<!--maxActive: 最大连接数量 -->
-			<property name="maxActive" value="${jdbc.maxActive}" />
+			<property name="maxActive" value="${db.maxActive}" />
 			<!--minIdle: 最小空闲连接 -->
-			<property name="minIdle" value="${jdbc.minIdle}" />
+			<property name="minIdle" value="${db.minIdle}" />
 			<!--maxIdle: 最大空闲连接 -->
-			<property name="maxIdle" value="${jdbc.maxIdle}" />
+			<property name="maxIdle" value="${db.maxIdle}" />
 			<!--initialSize: 初始化连接 -->
-			<property name="initialSize" value="${jdbc.initialSize}" />
+			<property name="initialSize" value="${db.initialSize}" />
 			<!-- 连接被泄露时是否打印 -->
-			<property name="logAbandoned" value="${jdbc.logAbandoned}" />
+			<property name="logAbandoned" value="${db.logAbandoned}" />
 			<!--removeAbandoned: 是否自动回收超时连接 -->
-			<property name="removeAbandoned" value="${jdbc.removeAbandoned}" />
+			<property name="removeAbandoned" value="${db.removeAbandoned}" />
 			<!--removeAbandonedTimeout: 超时时间(以秒数为单位) -->
-			<property name="removeAbandonedTimeout" value="${jdbc.removeAbandonedTimeout}" />
+			<property name="removeAbandonedTimeout" value="${db.removeAbandonedTimeout}" />
 			<!--maxWait: 超时等待时间以毫秒为单位 1000等于60秒 -->
-			<property name="maxWait" value="${jdbc.maxWait}" />
+			<property name="maxWait" value="${db.maxWait}" />
 			<!-- 在空闲连接回收器线程运行期间休眠的时间值,以毫秒为单位. -->
-			<property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}" />
+			<property name="timeBetweenEvictionRunsMillis" value="${db.timeBetweenEvictionRunsMillis}" />
 			<!-- 在每次空闲连接回收器线程(如果有)运行时检查的连接数量 -->
-			<property name="numTestsPerEvictionRun" value="${jdbc.numTestsPerEvictionRun}" />
+			<property name="numTestsPerEvictionRun" value="${db.numTestsPerEvictionRun}" />
 			<!-- 1000 * 60 * 30 连接在池中保持空闲而不被空闲连接回收器线程 -->
-			<property name="minEvictableIdleTimeMillis" value="${jdbc.minEvictableIdleTimeMillis}" />
+			<property name="minEvictableIdleTimeMillis" value="${db.minEvictableIdleTimeMillis}" />
 			<property name="validationQuery" value="${jdbc.validationQuery}" />
 		</bean>
   		
@@ -63,7 +63,11 @@
  			<!--把连接池注入到session工厂-->
 			<property name="dataSource" ref="dataSource" />
 			<!--将mapper文件注入到sessionfactory-->
-			<property name="mapperLocations" ref="classpath*:mappers/*Mapper.xml" />
+			<property name="mapperLocations">
+				<list>
+					<value>classpath*:sqlMappers/*Mapper.xml</value>
+				</list>
+			</property>
 			<!-- 整合分页插件功能 -->
 			<property name="plugins">
 				<array>
