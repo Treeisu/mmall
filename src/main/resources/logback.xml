@@ -52,6 +52,7 @@
         <appender-ref ref="File-Appender" />
         <appender-ref ref="Async-Appender" />
     </logger>
+    <logger name="com.ibatis" level="DEBUG" />  
     <root>
         <appender-ref ref="Console-Appender" />
     </root>

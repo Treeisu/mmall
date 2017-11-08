@@ -177,7 +177,7 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public ServerResponse<String> resetPassword(String passwordOld, String passwordNew,User user) {
 		// TODO Auto-generated method stub
-		//防止横向越权而校验旧密码   需要根据用户id和密码查询记录
+		//防止横向越权  校验旧密码是否正确   需要根据用户id和密码查询记录
 		int num=userMapper.checkPassword(MD5Util.MD5EncodeUtf8(passwordOld), user.getId());
 		if(num==0){//没有查询到记录，说明旧密码错误
 			return ServerResponse.createByErrorMessage("原密码输入错误，修改密码失败");

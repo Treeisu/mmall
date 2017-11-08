@@ -55,7 +55,7 @@
 			<property name="numTestsPerEvictionRun" value="${db.numTestsPerEvictionRun}" />
 			<!-- 1000 * 60 * 30 连接在池中保持空闲而不被空闲连接回收器线程 -->
 			<property name="minEvictableIdleTimeMillis" value="${db.minEvictableIdleTimeMillis}" />
-			<property name="validationQuery" value="${jdbc.validationQuery}" />
+			<property name="validationQuery" value="${db.validationQuery}" />
 		</bean>
   		
   		<!--配置关于mybsties的session工厂-->	

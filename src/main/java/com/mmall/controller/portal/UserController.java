@@ -195,10 +195,10 @@ public class UserController {
 	public ServerResponse<User> getInformation(HttpSession session){		
 		User userSession=(User) session.getAttribute(Const.CURRENT_USER);
 		if(userSession==null){
-			ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDescription());
-		}		
-		ServerResponse<User> response=iuserService.getInformation(userSession.getId());
-		return response;		
+			return ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDescription());
+		}
+		ServerResponse<User> response=iuserService.getInformation(userSession.getId());			
+		return response;	
 	}
 	/**
 	 * 更新用户的个人信息
