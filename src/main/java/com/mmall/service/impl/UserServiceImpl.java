@@ -98,7 +98,7 @@ public class UserServiceImpl implements IUserService {
 				break;
 			}
 		}			
-		return ServerResponse.createBySuccessMessage("校验成功，不存在该用户")	;						
+		return ServerResponse.createBySuccessMessage("校验成功，可注册")	;						
 	}
 	/**
 	 * 查询用户密保问题
@@ -221,6 +221,9 @@ public class UserServiceImpl implements IUserService {
 			}
 		}
 	}
+	/**
+	 * 获得用户当前的个人信息
+	 */
 	@Override
 	public ServerResponse<User> getInformation(int userId) {
 		// TODO Auto-generated method stub
@@ -230,6 +233,15 @@ public class UserServiceImpl implements IUserService {
 		}
 		u.setPassword(StringUtils.EMPTY);
 		return ServerResponse.createBySuccessMessage("查询到用户个人信息", u);
+	}
+	@Override
+	public ServerResponse<String> checkAdmin(User user) {
+		// TODO Auto-generated method stub
+		if(user.getRole().intValue()==Const.Role.ROLE_ADMIN){
+			return ServerResponse.createBySuccessMessage("当前用户是管理员！");
+		}else{
+			return ServerResponse.createByErrorMessage("当前用户非管理员！");
+		}
 	}		
 	
 	
