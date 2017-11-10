@@ -1,5 +1,7 @@
 package com.mmall.dao;
 
+import java.util.List;
+
 import com.mmall.pojo.Product;
 
 public interface ProductMapper {
@@ -16,4 +18,6 @@ public interface ProductMapper {
     int updateByPrimaryKeyWithBLOBs(Product record);
 
     int updateByPrimaryKey(Product record);
+    
+    List<Product> selectList();
 }

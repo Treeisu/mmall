@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mmall.common.Const;
+import com.mmall.common.ResponseCode;
 import com.mmall.common.ServerResponse;
 import com.mmall.common.TokenCache;
 import com.mmall.dao.UserMapper;
@@ -79,7 +80,7 @@ public class UserServiceImpl implements IUserService {
 	public ServerResponse<String> checkValid(String str,String type) {
 		//判断是否为空或者是空格字符串""
 		if(StringUtils.isBlank(type)){
-			return ServerResponse.createByErrorMessage("存在异常，参数错误");		
+			return ServerResponse.createByErrorMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), "存在异常，参数错误");		
 		}else{
 			switch (type) {
 			case Const.USERNAME:
@@ -143,7 +144,7 @@ public class UserServiceImpl implements IUserService {
 		// TODO Auto-generated method stub
 		//校验token
 		if(StringUtils.isBlank(forgetToken)){
-			return ServerResponse.createByErrorMessage("参数错误，token为空值");
+			return ServerResponse.createByErrorMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), "参数错误，token为空值");
 		}else{
 			//校验username
 			if(this.checkValid(username, Const.USERNAME).isSuccess()){
@@ -235,7 +236,7 @@ public class UserServiceImpl implements IUserService {
 		return ServerResponse.createBySuccessMessage("查询到用户个人信息", u);
 	}
 	@Override
-	public ServerResponse<String> checkAdmin(User user) {
+	public ServerResponse<String> checkAdminRole(User user) {
 		// TODO Auto-generated method stub
 		if(user.getRole().intValue()==Const.Role.ROLE_ADMIN){
 			return ServerResponse.createBySuccessMessage("当前用户是管理员！");

@@ -56,7 +56,7 @@ public class CategoryManageController {
 			return ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),"管理员当前处于未登录状态，请登录系统！");
 		}
 		//校验是否是管理员
-		if(iuserService.checkAdmin(user).isSuccess()){//该用户是管理员
+		if(iuserService.checkAdminRole(user).isSuccess()){//该用户是管理员
 			ServerResponse<String> response=iCategroyService.addCategory(categoryName, parentId);
 			return response;
 		}else{
@@ -86,7 +86,7 @@ public class CategoryManageController {
 			return ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),"管理员当前处于未登录状态，请登录系统！");
 		}
 		//校验是否是管理员
-		if(iuserService.checkAdmin(user).isSuccess()){//该用户是管理员
+		if(iuserService.checkAdminRole(user).isSuccess()){//该用户是管理员
 			ServerResponse<Category> response=iCategroyService.setCategoryName(categoryId, categoryName);
 			return response;
 		}else{
@@ -113,7 +113,7 @@ public class CategoryManageController {
 			return ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),"管理员当前处于未登录状态，请登录系统！");
 		}
 		//校验是否是管理员
-		if(iuserService.checkAdmin(user).isSuccess()){//该用户是管理员
+		if(iuserService.checkAdminRole(user).isSuccess()){//该用户是管理员
 			ServerResponse<List<Category>> response=iCategroyService.selectChildrenCategory(categoryId);
 			return response;
 		}else{
@@ -140,7 +140,7 @@ public class CategoryManageController {
 			return ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),"管理员当前处于未登录状态，请登录系统！");
 		}
 		//校验是否是管理员
-		if(iuserService.checkAdmin(user).isSuccess()){//该用户是管理员
+		if(iuserService.checkAdminRole(user).isSuccess()){//该用户是管理员
 			ServerResponse<List<Integer>> response=iCategroyService.selectChildrensAllCategory(categoryId);
 			return response;
 		}else{

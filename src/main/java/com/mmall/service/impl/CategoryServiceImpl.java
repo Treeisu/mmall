@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mmall.common.ResponseCode;
 import com.mmall.common.ServerResponse;
 import com.mmall.dao.CategoryMapper;
 import com.mmall.pojo.Category;
@@ -30,7 +31,7 @@ public class CategoryServiceImpl implements ICategroyService {
 	public ServerResponse<String> addCategory(String categoryName, Integer parentId) {
 		// TODO Auto-generated method stub
 		if(StringUtils.isBlank(categoryName)||parentId==null){
-			return ServerResponse.createByErrorMessage("添加商品类目：参数错误！");
+			return ServerResponse.createByErrorMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), "添加商品类目：参数错误！");
 		}
 		Category category=new Category();
 		category.setName(categoryName);
@@ -49,7 +50,7 @@ public class CategoryServiceImpl implements ICategroyService {
 	public ServerResponse<Category> setCategoryName(Integer categoryId, String categoryName) {
 		// TODO Auto-generated method stub
 		if(StringUtils.isBlank(categoryName)||categoryId==null){
-			return ServerResponse.createByErrorMessage("更新商品类目：参数错误！");
+			return ServerResponse.createByErrorMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), "更新商品类目：参数错误！");
 		}
 		Category category=new Category();
 		category.setId(categoryId);
