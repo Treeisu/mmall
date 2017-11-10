@@ -111,6 +111,8 @@ public class ProductManageController {
 		}		
 	}
 	
+	
+	
 	@RequestMapping(value="/list",method=RequestMethod.GET)
 	@ResponseBody
 	public ServerResponse<ProductDetailVo> getList(HttpSession session,@RequestParam(value="pageNum",defaultValue="1")Integer pageNum,@RequestParam(value="pageSize",defaultValue="0")Integer pageSize){
