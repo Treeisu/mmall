@@ -60,7 +60,7 @@ public class FtpUtil {
 	/**
 	 * 
 	 * @Title: uploda
-	 * @Description: TODO 暴露的上传方法供调用
+	 * @Description: TODO 暴露的上传至ftp服务器的方法供调用
 	 * @param @param list
 	 * @param @return
 	 * @param @throws IOException    
@@ -86,7 +86,7 @@ public class FtpUtil {
 	 * @throws
 	 */
 	private boolean uploadFile(String remotePath,List<File> list) throws IOException{
-		boolean uploaded=true;
+		boolean uploaded=false;
 		FileInputStream fileInputStream=null;//输入流
 		//连接ftp服务器
 		if(connectServer(this.ip, this.port, this.user, this.password)){
@@ -100,7 +100,7 @@ public class FtpUtil {
 					fileInputStream=new FileInputStream(f);
 					ftpClient.storeFile(f.getName(),fileInputStream);
 				}
-				
+				uploaded=true;				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
