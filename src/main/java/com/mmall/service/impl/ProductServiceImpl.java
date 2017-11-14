@@ -246,10 +246,10 @@ public class ProductServiceImpl implements IProductService{
 		// TODO Auto-generated method stub
 		//校验参数
 		if(StringUtils.isBlank(keyword)&&categoryId==null){
-			ServerResponse.createByErrorMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), "参数有误！");
+			return ServerResponse.createByErrorMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), "参数有误！");
 		}
 		//分类ids【递归查询得到】
-		List<Integer> ids=null;
+		List<Integer> ids=new ArrayList<>();
 		//校验分类id 获得分类ids
 		if(categoryId!=null){
 			Category category=categoryMapper.selectByPrimaryKey(categoryId);
@@ -276,7 +276,8 @@ public class ProductServiceImpl implements IProductService{
 			}
 		}
 		//开始查询
-		List<Product> list=productMapper.selectByNameOrCategoryIds(StringUtils.isBlank(keyword)?null:keyword,ids.size()==0?null:ids);
+		List<Product> list=new ArrayList<>();
+		list=productMapper.selectByNameOrCategoryIds(StringUtils.isBlank(keyword)?null:keyword,ids.size()==0?null:ids);
 		//封装详细列表
 		List<ProductListVo> listVos=new ArrayList<ProductListVo>();
 		for(Product p:list){

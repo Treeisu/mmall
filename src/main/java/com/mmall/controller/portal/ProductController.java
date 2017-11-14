@@ -55,7 +55,7 @@ public class ProductController {
 	@RequestMapping(value="/list",method=RequestMethod.GET)
 	@ResponseBody
 	public ServerResponse<PageInfo> getList(@RequestParam(value="keyword",required=false)String keyword,
-											@RequestParam(value="catagoryId",required=false)Integer catagoryId,
+											@RequestParam(value="categoryId",required=false)Integer catagoryId,
 											@RequestParam(value="pageNum",defaultValue="1")Integer pageNum,
 											@RequestParam(value="pageSize",defaultValue="10")Integer pageSize,
 											@RequestParam(value="orderBy",defaultValue="")String orderBy){

@@ -44,7 +44,7 @@ public class FileServiceImpl implements IFileService{
 			file.transferTo(fileObj);
 			logger.info("开始上传文件至ftp服务器,文件原始名为:{},上传的远程相对路径:{},上传存储的文件名:{}",fileName,path,uploadFileName);
 			//二、将fileObj上传至ftp服务器上；服务器上的路径为/img
-			String remotePath="img";
+			String remotePath="/usr/ftpfile/img";
 			FtpUtil.uplod(remotePath,Lists.newArrayList(fileObj));
 			logger.info("开始删除本地的上传文件");
 			//三、将项目路径下的upload文件删除
