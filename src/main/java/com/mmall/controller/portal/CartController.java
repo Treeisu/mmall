@@ -32,7 +32,7 @@ public class CartController {
 	 * @Title: add
 	 * @Description: TODO 添加购物车
 	 * @param @param session
-	 * @param @param count
+	 * @param @param count 需要购买的数量
 	 * @param @param productId
 	 * @param @return    
 	 * @return ServerResponse<CartVo>    
@@ -48,15 +48,25 @@ public class CartController {
 		ServerResponse<CartVo> response=iCartService.add(user.getId(), count, productId);		
 		return response;		
 	}
-	
+	/**
+	 * 	
+	 * @Title: update
+	 * @Description: TODO 更新购物车
+	 * @param @param session
+	 * @param @param num 购物车中该商品的总数量
+	 * @param @param productId
+	 * @param @return    
+	 * @return ServerResponse<CartVo>    
+	 * @throws
+	 */
 	@RequestMapping(value="/update",method=RequestMethod.GET)
 	@ResponseBody
-	public ServerResponse<CartVo> update(HttpSession session,Integer count,Integer productId){
+	public ServerResponse<CartVo> update(HttpSession session,Integer num,Integer productId){
 		User user=(User) session.getAttribute(Const.CURRENT_USER);
 		if(user==null){
 			return ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),"当前处于未登录状态，请登录系统！");
 		}		
-		ServerResponse<CartVo> response=iCartService.update(user.getId(), count, productId);		
+		ServerResponse<CartVo> response=iCartService.update(user.getId(), num, productId);		
 		return response;		
 	}
 	
