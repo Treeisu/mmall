@@ -43,7 +43,7 @@ public class CartServiceImpl implements ICartService{
 			}else{				
 				Cart cart=cartMapper.selectByUidAndPid(userId, productId);
 				if(cart!=null){//购物车中已存在过此商品					
-					cart.setQuantity(count);					
+					cart.setQuantity(cart.getQuantity()+count);					
 					cartMapper.updateByPrimaryKeySelective(cart);//更新
 				}else{//未添加过，则新建一个										
 					Cart c=new Cart();
@@ -60,9 +60,9 @@ public class CartServiceImpl implements ICartService{
 		
 	}
 	@Override
-	public ServerResponse<CartVo> update(Integer userId, Integer count, Integer productId){
+	public ServerResponse<CartVo> update(Integer userId, Integer num, Integer productId){
 		Product product=new Product();
-		if(productId==null||count==null){
+		if(productId==null||num==null){
 			return ServerResponse.createByErrorMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),"参数错误！");
 		}else{
 			product=productMapper.selectByPrimaryKey(productId);
@@ -71,7 +71,7 @@ public class CartServiceImpl implements ICartService{
 			}else{
 				Cart cart=cartMapper.selectByUidAndPid(userId, productId);
 				if(cart!=null){
-					cart.setQuantity(count);
+					cart.setQuantity(num);
 					cartMapper.updateByPrimaryKeySelective(cart);//更新购物车
 				}				
 			}
