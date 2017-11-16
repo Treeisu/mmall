@@ -268,9 +268,9 @@ public class ProductServiceImpl implements IProductService{
 			keyword=new StringBuffer().append("%").append(keyword).append("%").toString();			
 		}
 		PageHelper.startPage(pageNum,pageSize);
-		//动态排序
+		//设置动态排序
 		if(StringUtils.isNotBlank(orderBy)){
-			if(Const.ProductListOrderBy.PRICE_ASC_DESC.contains("orderBy")){//按照价格升序降序
+			if(Const.ProductListOrderBy.PRICE_ASC_DESC.contains(orderBy)){//按照价格升序降序
 				String[] arrs=orderBy.split("_");
 				PageHelper.orderBy(arrs[0]+" "+arrs[1]);//格式 price desc				
 			}

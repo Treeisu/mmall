@@ -36,8 +36,6 @@ public class Const {
 		}
 		public String getValue() {
 			return value;
-		}
-		
-		
+		}				
 	}
 }
