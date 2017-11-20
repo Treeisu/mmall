@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.google.common.base.Splitter;
 import com.mmall.common.Const;
 import com.mmall.common.ResponseCode;
 import com.mmall.common.ServerResponse;
@@ -25,6 +27,17 @@ public class CartServiceImpl implements ICartService{
 	private CartMapper cartMapper;
 	@Autowired
 	private ProductMapper productMapper;
+	
+	
+	/**
+	 * 获得购物车
+	 */
+	@Override
+	public ServerResponse<CartVo> list(Integer userId) {
+		// TODO Auto-generated method stub
+		CartVo cartVo=this.getCartVoLimit(userId);		
+		return ServerResponse.createBySuccessMessage("查询购物车成功", cartVo);
+	}
 	/**
 	 * 商品加入购物车
 	 */
@@ -32,11 +45,11 @@ public class CartServiceImpl implements ICartService{
 	public ServerResponse<CartVo> add(Integer userId, Integer count, Integer productId) {
 		// TODO Auto-generated method stub
 		//查询用户是否已添加过此商品进购物车
-		//校验参数
-		Product product=new Product();
+		//校验参数		
 		if(productId==null||count==null){
 			return ServerResponse.createByErrorMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),"参数错误！");
 		}else{
+			Product product=new Product();
 			product=productMapper.selectByPrimaryKey(productId);
 			if(product==null){
 				return ServerResponse.createByErrorMessage("添加失败，该商品不存在！");
@@ -53,18 +66,23 @@ public class CartServiceImpl implements ICartService{
 					c.setChecked(Const.Cart.CHECKED);					
 					cartMapper.insert(c);//保存
 				}
+				//添加完成 查询购物车
 				CartVo cartVo=this.getCartVoLimit(userId);		
 				return ServerResponse.createBySuccessMessage("查询购物车成功", cartVo);
 			}
 		}
 		
 	}
+	/**
+	 * 更新购物车的某个商品的购买数量
+	 * num指的不是新增个数 某个商品在购物车中的总个数【now】
+	 */
 	@Override
-	public ServerResponse<CartVo> update(Integer userId, Integer num, Integer productId){
-		Product product=new Product();
+	public ServerResponse<CartVo> update(Integer userId, Integer num, Integer productId){		
 		if(productId==null||num==null){
 			return ServerResponse.createByErrorMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),"参数错误！");
 		}else{
+			Product product=new Product();
 			product=productMapper.selectByPrimaryKey(productId);
 			if(product==null){
 				return ServerResponse.createByErrorMessage("更新失败，该商品不存在！");
@@ -73,10 +91,61 @@ public class CartServiceImpl implements ICartService{
 				if(cart!=null){
 					cart.setQuantity(num);
 					cartMapper.updateByPrimaryKeySelective(cart);//更新购物车
-				}				
-			}
+				}
+				//更新完成，再次查询一遍
+				CartVo cartVo=this.getCartVoLimit(userId);		
+				return ServerResponse.createBySuccessMessage("查询购物车成功", cartVo);
+			}			
 		}
-		return null;		
+				
+	}
+	/**
+	 * 删除商品【可能一下删除多个，所以商品id是一个字符串可能包含多个id】
+	 */
+	@Override
+	public ServerResponse<CartVo> deleteProduct(Integer userId, String productIds) {
+		// TODO Auto-generated method stub
+		List<String> productIdList=Splitter.on(",").splitToList(productIds);
+		if(CollectionUtils.isEmpty(productIdList)){
+			return ServerResponse.createByErrorMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),"参数错误！");
+		}
+		//进行删除
+		cartMapper.deleteByUidPIDlist(userId, productIdList);
+		//删除完成，再次查询一遍
+		CartVo cartVo=this.getCartVoLimit(userId);		
+		return ServerResponse.createBySuccessMessage("查询购物车成功", cartVo);
+	}
+	/**
+	 * 全选或者全取消
+	 */
+	@Override
+	public ServerResponse<CartVo> selectOrUnselectAll(Integer userId,Integer checkedStatus) {
+		// TODO Auto-generated method stub
+		cartMapper.selectOrUnselectAll(userId, checkedStatus);
+		CartVo cartVo=this.getCartVoLimit(userId);		
+		return ServerResponse.createBySuccessMessage("查询购物车成功", cartVo);
+	}
+	/**
+	 * 单个选中或者单个取消
+	 */
+	@Override
+	public ServerResponse<CartVo> selectOrUnselect(Integer userId,Integer checkedStatus,Integer productId) {
+		// TODO Auto-generated method stub
+		cartMapper.selectOrUnselect(userId, checkedStatus, productId);
+		CartVo cartVo=this.getCartVoLimit(userId);		
+		return ServerResponse.createBySuccessMessage("查询购物车成功", cartVo);
+	}
+	/**
+	 * 获得购物车中产品的个数
+	 */
+	@Override
+	public ServerResponse<Integer> getCartProductCount(Integer userId) {
+		// TODO Auto-generated method stub
+		Integer sum=0;
+		if(userId!=null){
+			sum=cartMapper.selectCartProductCount(userId);
+		}		
+		return ServerResponse.createBySuccessMessage("查询购物车成功",sum);
 	}
 	
 	
@@ -157,7 +226,7 @@ public class CartServiceImpl implements ICartService{
 					 * 判断是否处于勾选的状态，如果是的话，那么就增加到购物车总价当中
 					 */
 					if(c.getChecked()==Const.Cart.CHECKED){
-						BigDecimal cartTotalPrice=BigDecimalUtil.add(cartVo.getCartTotalPrice().doubleValue(),productVo.getProductPrice().doubleValue());					
+						BigDecimal cartTotalPrice=BigDecimalUtil.add(cartVo.getCartTotalPrice().doubleValue(),productVo.getProductTotalPrice().doubleValue());					
 						cartVo.setCartTotalPrice(cartTotalPrice);
 					}else{
 						allFlag=false;//未全部勾选
@@ -171,4 +240,8 @@ public class CartServiceImpl implements ICartService{
 		cartVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix"));
 		return cartVo;		
 	}
+	
+	
+	
+	
 }

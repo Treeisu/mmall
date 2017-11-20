@@ -40,7 +40,7 @@
  	
 	<!-- servlet：springMVC的配置，dispatcherServlet拦截所有请求-->
 	<servlet>
-		<servlet-name>dispatcher</servlet-name>
+		<servlet-name>DispatcherServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>      	
 	    <init-param>
 	      		<!-- 其中<param-value>**.xml</param-value> 这里可以使用多种写法   -->
@@ -54,7 +54,7 @@
 		<load-on-startup>1</load-on-startup>
  	</servlet>
 	<servlet-mapping>
-			<servlet-name>dispatcher</servlet-name>
+			<servlet-name>DispatcherServlet</servlet-name>
 			<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	<!-- 此servlet拦截所有请求交给springMVC.XML处理 -->
