@@ -246,6 +246,7 @@
 				<encoding>UTF-8</encoding>
 				<!-- 此配置可以把lib下面的包在编译时加入进来  ！！如果不加此配置，发布至服务器上会找不到项目另外添加至lib下面的jar包-->
 				<!-- 比如手动添加的支付宝的jar包（因为maven仓库中没有） -->
+				<!-- 这样git提交项目至github也会把lib下的jar包一起提交上去 -->
 				<compilerArguments>
 					<extdirs>${project.basedir}/src/main/webapp/WEB-INF/lib</extdirs>
 				</compilerArguments>
