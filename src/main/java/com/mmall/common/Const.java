@@ -47,4 +47,70 @@ public class Const {
 			return value;
 		}				
 	}
+	/**
+	 * 
+	 * @ClassName: OrderStatus
+	 * @Description: TODO 订单状态类枚举
+	 * @author Barry
+	 * @date 2017年11月24日 下午3:06:00
+	 *
+	 */
+	public enum OrderStatus{		
+		CANCELED(0,"已取消"),
+		NO_SALE(10,"未支付"),
+		PAIED(20,"已支付"),
+		SHIPPED(40,"已发货"),
+		ORDER_SUCCESS(50,"订单完成"),
+		ORDER_CLOSE(60,"订单关闭");
+		private final int code;
+		private final String value;
+		private OrderStatus( int code,String value) {
+			this.value = value;
+			this.code = code;
+		}
+		public int getCode() {
+			return code;
+		}
+		public String getValue() {
+			return value;
+		}				
+	}
+	/**
+	 * 
+	 * @ClassName: AlipayCallback
+	 * @Description: TODO 支付宝调用的状态
+	 * @author Barry
+	 * @date 2017年11月24日 下午3:16:13
+	 *
+	 */
+	public interface AlipayCallback{
+		String TRADE_STATUS_WAIT_BUYER_PAY="WAIT_BUYER_PAY";
+		String TRADE_STATUS_TRADE_SUCCESS="TRADE_SUCCESS";
+		String RESPONSE_SUCCESS="success";
+		String RESPONSE_FAILED="failed";
+	}
+	/**
+	 * 
+	 * @ClassName: PayPlatFormEnum
+	 * @Description: TODO 支付平台
+	 * @author Barry
+	 * @date 2017年11月24日 下午3:27:00
+	 *
+	 */
+	public enum PayPlatformEnum{		
+		ALIPAY(1,"支付宝"),
+		WECHATE(2,"微信支付");
+		private final int code;
+		private final String value;
+		private PayPlatformEnum( int code,String value) {
+			this.value = value;
+			this.code = code;
+		}
+		public int getCode() {
+			return code;
+		}
+		public String getValue() {
+			return value;
+		}				
+	}
 }
