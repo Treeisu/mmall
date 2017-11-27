@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
@@ -82,9 +83,14 @@ public class OrderServiceImpl implements IOrderService {
 	 * 支付宝回调验证
 	 */
 	@Override
-	public ServerResponse<String> aliCallBackCheck(Map<String,String> params){
+	public ServerResponse<String> aliCallBackCheck(Map<String,String[]> requestParams){
 		/**
-		 * 开始验证
+		 * 将参数String[]进行转化成String
+		 */
+		Map<String,String> params=new HashMap<String,String>();
+		params=this.paramInit(requestParams);
+		/**
+		 * 开始验证 1验签  2验单  3验证交易状态  
 		 */
 		//TODO 验证回调的正确性【简称：验签】，确定是否是支付宝返回的
 		try {
@@ -165,7 +171,7 @@ public class OrderServiceImpl implements IOrderService {
         String totalAmount = order.getPayment().toString();//订单总金额
         String undiscountableAmount = "0";//不打折金额【比如：酒水饮料的总价】       
         //收款账号【商家支付宝】  该字段为空，则默认为与支付宝签约的商户的PID，也就是appid对应的PID
-        String sellerId = "tnhumv9205@sandbox.com";
+        String sellerId = "";
         //订单描述     比如填写"购买商品2件共15.00元"
         String body=new StringBuilder().append("订单").append(outTradeNo).append("购买商品共").append(totalAmount).append("元").toString();
         //商户操作员编号，添加此参数可以为商户操作员做销售统计
@@ -270,5 +276,30 @@ public class OrderServiceImpl implements IOrderService {
 		payInfo.setPlatformStatus(tradeStatus);//交易状态
 		payInfoMapper.insert(payInfo);
 	}
-	
+    //支付宝回调接口 参数转化
+    private Map<String,String> paramInit(Map<String,String[]> requestParams) {		
+		Map<String,String> params=new HashMap<String,String>();
+		Iterator<String> it=requestParams.keySet().iterator();
+		while(it.hasNext()){
+			String name=it.next();
+			String[] valus=requestParams.get(name);	
+			String valueStr="";
+			for(int i=0;i<valus.length;i++){				
+				StringBuilder sb=new StringBuilder();
+				if(i+1!=valus.length&&i<valus.length){
+					sb.append(valus[i]).append(",");
+				}
+				if(i+1==valus.length){
+					sb.append(valus[i]);
+				}
+			    valueStr=sb.toString();			
+			}				
+			params.put(name, valueStr);
+		}
+		//注意：验证参数中需要删除此属性！！！【必须在转化之后删除，不然会报错】
+		if(params.containsKey("sign_type")){
+			params.remove("sign_type");
+		}
+		return params;
+	}
 }

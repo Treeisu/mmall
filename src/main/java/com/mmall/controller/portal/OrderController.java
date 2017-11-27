@@ -1,7 +1,5 @@
 package com.mmall.controller.portal;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -67,16 +65,14 @@ public class OrderController {
 	 * @return Object    
 	 * @throws
 	 */
-	@RequestMapping(value="/alipay_callback",method=RequestMethod.GET)
+	@RequestMapping(value="/alipay_callback",method=RequestMethod.POST)
 	@ResponseBody
 	public String AliPay_CallBack(HttpServletRequest request){
 		//获得所有参数
-		Map<String,String[]> requestParams=request.getParameterMap();
-		requestParams.remove("sign_type");//下面验证时需要删除此参数
-		//将参数对对应的值  数组类型转换成字符串【用逗号拼接】
-		Map<String,String> params=paramInit(requestParams);
-		logger.info("支付宝回调,sign:{},trade_status:{},参数:{}",params.get("sign"),params.get("trade_status"),params.toString());
-		ServerResponse<String> response=iOrderService.aliCallBackCheck(params);		
+		Map<String,String[]> requestParams=request.getParameterMap();			
+		//将参数对对应的值  数组类型转换成字符串【用逗号拼接】		
+		logger.info("支付宝回调,sign:{},trade_status:{},参数:{}",requestParams.get("sign"),requestParams.get("trade_status"),requestParams.toString());
+		ServerResponse<String> response=iOrderService.aliCallBackCheck(requestParams);		
 		if(response.isSuccess()){
 			return Const.AlipayCallback.RESPONSE_SUCCESS;
 		}else{
@@ -122,25 +118,6 @@ public class OrderController {
 	
 	
 	
-	private Map<String,String> paramInit(Map<String,String[]> requestParams) {		
-		Map<String,String> params=new HashMap<String,String>();
-		Iterator<String> it=requestParams.keySet().iterator();
-		while(it.hasNext()){
-			String name=it.next();
-			String[] valus=requestParams.get(name);
-			for(int i=0;i<=valus.length;i++){
-				StringBuilder sb=new StringBuilder();
-				if(i!=valus.length&&i<valus.length){
-					sb.append(valus[i]).append(",");
-				}
-				if(i==valus.length&&i<valus.length){
-					sb.append(valus[i]);
-				}
-				String valueStr=sb.toString();
-				params.put(name, valueStr);
-			}			
-		}
-		return params;
-	}
+	
 	
 }
