@@ -31,12 +31,12 @@ public class Const {
 	 * @date 2017年11月16日 下午1:47:30
 	 *
 	 */
-	public enum ProductStatus{		
+	public enum ProductStatusEnum{		
 		ON_SALE(1,"在售状态"),
 		NO_SALE(0,"下架状态");
 		private final int code;
 		private final String value;
-		private ProductStatus( int code,String value) {
+		private ProductStatusEnum( int code,String value) {
 			this.value = value;
 			this.code = code;
 		}
@@ -45,7 +45,38 @@ public class Const {
 		}
 		public String getValue() {
 			return value;
-		}				
+		}	
+		public static ProductStatusEnum codeof(int code){
+			for(ProductStatusEnum p:values()){
+				if(p.getCode()==code){
+					return p;
+				}
+			}
+			throw new RuntimeException();
+		}
+	}
+	public enum PaymentTypeEnum{		
+		ONLINE_PAY(1,"在线支付");
+		private final int code;
+		private final String value;
+		private PaymentTypeEnum( int code,String value) {
+			this.value = value;
+			this.code = code;
+		}
+		public int getCode() {
+			return code;
+		}
+		public String getValue() {
+			return value;
+		}	
+		public static PaymentTypeEnum codeof(int code){
+			for(PaymentTypeEnum p:values()){
+				if(p.getCode()==code){
+					return p;
+				}
+			}
+			throw new RuntimeException();
+		}
 	}
 	/**
 	 * 
@@ -55,16 +86,16 @@ public class Const {
 	 * @date 2017年11月24日 下午3:06:00
 	 *
 	 */
-	public enum OrderStatus{		
+	public enum OrderStatusEnum{		
 		CANCELED(0,"已取消"),
-		NO_SALE(10,"未支付"),
+		NO_PAY(10,"未支付"),
 		PAIED(20,"已支付"),
 		SHIPPED(40,"已发货"),
 		ORDER_SUCCESS(50,"订单完成"),
 		ORDER_CLOSE(60,"订单关闭");
 		private final int code;
 		private final String value;
-		private OrderStatus( int code,String value) {
+		private OrderStatusEnum( int code,String value) {
 			this.value = value;
 			this.code = code;
 		}

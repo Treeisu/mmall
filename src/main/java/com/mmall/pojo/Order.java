@@ -15,9 +15,9 @@ public class Order implements Serializable {
 
     private BigDecimal payment;
 
-    private Integer paymentType;
+    private Integer paymentType;//支付方式：在线支付
 
-    private Integer postage;
+    private Integer postage;//邮费
 
     private Integer status;
 

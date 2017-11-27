@@ -229,7 +229,7 @@ public class ProductServiceImpl implements IProductService{
 		if(product==null){
 			return ServerResponse.createByErrorMessage("该商品不存在！");
 		}else{
-			if(product.getStatus()!=Const.ProductStatus.ON_SALE.getCode()){
+			if(product.getStatus()!=Const.ProductStatusEnum.ON_SALE.getCode()){
 				return ServerResponse.createByErrorMessage("该商品已下架!");
 			}
 			//封装VO对象

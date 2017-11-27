@@ -231,4 +231,11 @@
 	    </if>
     </where>   
   </select>
+  <update id="batchReduceProductStock" parameterType="list">
+    update mmall_product
+    <foreach collection="productMaps" index="index" item="item">
+    	set stock = #{item.quantity,jdbcType=INTEGER},update_time = now()
+    	where id = #{item.id,jdbcType=INTEGER}
+    </foreach>
+  </update>
 </mapper>

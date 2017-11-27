@@ -1,5 +1,6 @@
 package com.mmall.controller.portal;
 
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.mmall.common.Const;
 import com.mmall.common.ResponseCode;
 import com.mmall.common.ServerResponse;
+import com.mmall.pojo.OrderItem;
 import com.mmall.pojo.User;
 import com.mmall.service.IOrderService;
+import com.mmall.vo.OrderVo;
 
 
 /**
@@ -32,6 +35,18 @@ public class OrderController {
 	@Autowired
 	private IOrderService iOrderService;
 	
+	
+	
+	@RequestMapping(value="/create",method=RequestMethod.GET)
+	@ResponseBody
+	public ServerResponse<OrderVo> creat(HttpSession session,Integer shippingId){
+		User user=(User) session.getAttribute(Const.CURRENT_USER);
+		if(user==null){
+			return ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),"当前处于未登录状态，请登录系统！");
+		}
+		ServerResponse<OrderVo> response=iOrderService.createOrder(user.getId(), shippingId);		
+		return response;		
+	}
 	/**
 	 * 
 	 * @Title: pay
