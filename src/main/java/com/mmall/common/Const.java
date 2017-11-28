@@ -104,7 +104,15 @@ public class Const {
 		}
 		public String getValue() {
 			return value;
-		}				
+		}		
+		public static OrderStatusEnum codeof(int code){
+			for(OrderStatusEnum p:values()){
+				if(p.getCode()==code){
+					return p;
+				}
+			}
+			throw new RuntimeException();
+		}
 	}
 	/**
 	 * 

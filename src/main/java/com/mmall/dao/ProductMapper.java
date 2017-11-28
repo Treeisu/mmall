@@ -1,7 +1,6 @@
 package com.mmall.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -28,5 +27,7 @@ public interface ProductMapper {
     
     List<Product> selectByNameOrCategoryIds(@Param("productName")String productName,@Param("categoryIds")List<Integer> categoryIds);
     
-    void batchReduceProductStock(@Param("productMaps")List<Map<String,Integer>> productMaps);
+    int reduceStockByPid(@Param("productId")Integer productId,@Param("quantity")Integer quantity);
+    
+    int addStockByPid(@Param("productId")Integer productId,@Param("quantity")Integer quantity);
 }

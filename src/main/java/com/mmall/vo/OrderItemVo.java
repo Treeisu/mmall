@@ -1,7 +1,14 @@
 package com.mmall.vo;
 
 import java.math.BigDecimal;
-
+/**
+ * 
+ * @ClassName: OrderItemVo
+ * @Description: TODO 订单中商品列表项
+ * @author Barry
+ * @date 2017年11月28日 上午11:03:17
+ *
+ */
 public class OrderItemVo {
 	private Long orderNo;
 

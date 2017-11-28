@@ -1,5 +1,7 @@
 package com.mmall.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.mmall.pojo.Order;
@@ -20,4 +22,8 @@ public interface OrderMapper {
     Order selectByOrderNoAndUid(@Param("orderNo")Long orderNo,@Param("userId")Integer userId);
     
     Order selectByOrderNo(Long orderNo);
+    
+    List<Order> selectByUid(Integer userId);
+    
+    List<Order> selectAll();
 }

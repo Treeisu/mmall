@@ -2,7 +2,14 @@ package com.mmall.vo;
 
 import java.math.BigDecimal;
 import java.util.List;
-
+/**
+ * 
+ * @ClassName: OrderVo
+ * @Description: TODO 订单详情页展示
+ * @author Barry
+ * @date 2017年11月28日 上午11:00:03
+ *
+ */
 public class OrderVo {
 	private Long orderNo;
 	
@@ -141,6 +148,15 @@ public class OrderVo {
 	}
 	public void setShippingVo(ShippingVo shippingVo) {
 		this.shippingVo = shippingVo;
+	}
+	@Override
+	public String toString() {
+		return "OrderVo [orderNo=" + orderNo + ", payment=" + payment + ", paymentTime=" + paymentTime
+				+ ", paymentType=" + paymentType + ", paymentTypeDesc=" + paymentTypeDesc + ", postage=" + postage
+				+ ", status=" + status + ", statusDesc=" + statusDesc + ", sendTime=" + sendTime + ", endTime="
+				+ endTime + ", closeTime=" + closeTime + ", createTime=" + createTime + ", orderItemVoList="
+				+ orderItemVoList + ", imageHost=" + imageHost + ", receiverName=" + receiverName + ", shippingId="
+				+ shippingId + ", shippingVo=" + shippingVo + "]";
 	}
     
 }
