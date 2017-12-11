@@ -42,7 +42,7 @@ public class UserController {
 	public ServerResponse<User> login(String username,String password,HttpSession session){
 		ServerResponse<User> response=iuserService.login(username, password);
 		if(response.isSuccess()){//登录成功，存进session
-			session.setAttribute(Const.CURRENT_USER,response.getDate());
+			session.setAttribute(Const.CURRENT_USER,response.getData());
 		}
 		return response;		
 	}
@@ -223,7 +223,7 @@ public class UserController {
 		ServerResponse<User> response=iuserService.updateInformation(user);
 		if(response.isSuccess()){
 			//更新session
-			session.setAttribute(Const.CURRENT_USER, response.getDate());				
+			session.setAttribute(Const.CURRENT_USER, response.getData());				
 		}	
 		return response;		
 	}

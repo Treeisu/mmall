@@ -33,16 +33,16 @@ public class ServerResponse<T> implements Serializable{
 		this.status = status;
 		this.msg = msg;
 	}	
-	private ServerResponse(int status, T date) {
+	private ServerResponse(int status, T data) {
 		super();
 		this.status = status;
-		this.data = date;
+		this.data = data;
 	}
-	private ServerResponse(int status, String msg, T date) {
+	private ServerResponse(int status, String msg, T data) {
 		super();
 		this.status = status;
 		this.msg = msg;
-		this.data = date;
+		this.data = data;
 	}
 	
 	public int getStatus() {
@@ -51,7 +51,7 @@ public class ServerResponse<T> implements Serializable{
 	public String getMsg() {
 		return msg;
 	}
-	public T getDate() {
+	public T getData() {
 		return data;
 	}
 	/**

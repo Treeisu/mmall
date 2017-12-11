@@ -41,7 +41,7 @@ public class UserManagerController {
 	public ServerResponse<User> login(String username,String password,HttpSession session){
 		ServerResponse<User> response=iuserService.login(username, password);
 		if(response.isSuccess()){//登陆成功
-			User user=response.getDate();
+			User user=response.getData();
 			if(user.getRole()==Const.Role.ROLE_ADMIN){//用户角色是管理员时
 				session.setAttribute(Const.CURRENT_USER, user);
 				return response;

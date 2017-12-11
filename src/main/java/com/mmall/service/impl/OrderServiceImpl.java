@@ -91,7 +91,7 @@ public class OrderServiceImpl implements IOrderService {
 			return ServerResponse.createByErrorMessage(serverResponse.getMsg());
 		}
 		//获得订单的明细
-		List<OrderItem> orderItems=serverResponse.getDate();
+		List<OrderItem> orderItems=serverResponse.getData();
 		//计算整个订单的总价
 		BigDecimal payment=new BigDecimal("0");
 		for(OrderItem o:orderItems){			
@@ -160,7 +160,7 @@ public class OrderServiceImpl implements IOrderService {
 			return ServerResponse.createByErrorMessage(response.getMsg());
 		}
 		//获得返回结果中的date 订单列表明细项
-		List<OrderItem> orderItems=response.getDate();
+		List<OrderItem> orderItems=response.getData();
 		//组装OrderProductVo对象
 		List<OrderItemVo> orderItemVos=new ArrayList<OrderItemVo>();
 		BigDecimal productTotalPrice=new BigDecimal("0");

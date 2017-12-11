@@ -261,7 +261,7 @@ public class ProductServiceImpl implements IProductService{
 				return ServerResponse.createBySuccessMessage("请求成功", pageInfo);
 			}	
 			//调用递归查询  返回分类ids
-			ids=iCategroyService.selectChildrensAllCategory(categoryId).getDate();
+			ids=iCategroyService.selectChildrensAllCategory(categoryId).getData();
 		}
 		//拼接参数
 		if(StringUtils.isNotBlank(keyword)){
