@@ -200,7 +200,7 @@ public class CartController {
 	public ServerResponse<Integer> getCartProductCount(HttpSession session){
 		User user=(User) session.getAttribute(Const.CURRENT_USER);
 		if(user==null){
-			return ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),"当前处于未登录状态，请登录系统！");
+			return ServerResponse.createBySuccessMessage("查询购物车成功",0);
 		}		
 		ServerResponse<Integer> response=iCartService.getCartProductCount(user.getId());		
 		return response;		
