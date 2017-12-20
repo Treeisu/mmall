@@ -52,12 +52,12 @@ public class ProductController {
 	 * @throws
 	 */
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value="/list",method=RequestMethod.GET)
+	@RequestMapping(value="/list",method=RequestMethod.POST)
 	@ResponseBody
 	public ServerResponse<PageInfo> getList(@RequestParam(value="keyword",required=false)String keyword,
 											@RequestParam(value="categoryId",required=false)Integer catagoryId,
 											@RequestParam(value="pageNum",defaultValue="1")Integer pageNum,
-											@RequestParam(value="pageSize",defaultValue="10")Integer pageSize,
+											@RequestParam(value="pageSize",defaultValue="20")Integer pageSize,
 											@RequestParam(value="orderBy",defaultValue="")String orderBy){
 		ServerResponse<PageInfo> response=iProductService.getProductByKeyword(keyword, catagoryId, pageNum, pageSize, orderBy);
 		return response;
