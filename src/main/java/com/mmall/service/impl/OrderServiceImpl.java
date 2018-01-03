@@ -534,7 +534,7 @@ public class OrderServiceImpl implements IOrderService {
     //获得一个订单的明细
     private ServerResponse<List<OrderItem>> getOrderItems(Integer userId) {
     	//获得该用户的购物车勾选中的 信息
-    	List<Cart> list=cartMapper.selectCheckedByUid(userId);
+    	List<Cart> list=cartMapper.selectCheckedByUid(userId);//获得购物车中已经选中的商品
 		if(CollectionUtils.isEmpty(list)){
 			return ServerResponse.createByErrorMessage("异常：购物车选中的商品未查询到！");
 		}
