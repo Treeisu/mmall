@@ -115,13 +115,14 @@ public class OrderServiceImpl implements IOrderService {
 				//四、清空购物车
 				cartMapper.deleteByPidAndUid(o.getProductId(), userId);
 			}
-			//返回给前端数据 【详细的订单vo】
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block			
 			orderMapper.deleteByPrimaryKey(order.getId());
 			e.printStackTrace();	
 			return ServerResponse.createByErrorMessage("创建订单失败！");					
-		}		
+		}			
+		//返回给前端数据 【详细的订单vo】
 		OrderVo orderVo=this.assembleOrderVo(order, orderItems);		
 		return ServerResponse.createBySuccessMessage("创建订单vo类成功！", orderVo);
 	}
