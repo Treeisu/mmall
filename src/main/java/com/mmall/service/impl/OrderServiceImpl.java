@@ -149,12 +149,12 @@ public class OrderServiceImpl implements IOrderService {
 		}		
 	}
 	/**
-	 * 预览订单中的商品
+	 * 预览订单中的商品  【需要获得购物车中已勾选的商品】
 	 */
 	@Override
 	public ServerResponse<OrderProductVo> getOrderCartProduct(Integer userId) {
 		// TODO Auto-generated method stub
-		//调用  获得订单的明细的方法
+		//调用  获得已勾选商品s
 		ServerResponse<List<OrderItem>> response=this.getOrderItems(userId);
 		if(response.isError()){
 			return ServerResponse.createByErrorMessage(response.getMsg());
@@ -531,7 +531,7 @@ public class OrderServiceImpl implements IOrderService {
 		}
 		return params;
 	}
-    //获得一个订单的明细
+    //获得购物车中已经选中的物品  并包装成OrderItem
     private ServerResponse<List<OrderItem>> getOrderItems(Integer userId) {
     	//获得该用户的购物车勾选中的 信息
     	List<Cart> list=cartMapper.selectCheckedByUid(userId);//获得购物车中已经选中的商品
