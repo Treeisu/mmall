@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayResponse;
 import com.alipay.api.internal.util.AlipaySignature;
@@ -106,14 +107,21 @@ public class OrderServiceImpl implements IOrderService {
 			o.setOrderNo(order.getOrderNo());//设置订单明细的订单号
 		}
 		//二、批量插入数据orderItems
-		orderItemMapper.batchInsert(orderItems);
-		for(OrderItem o:orderItems){
-			//三、批减少库存			
-			productMapper.reduceStockByPid(o.getProductId(), o.getQuantity());
-			//四、清空购物车
-			cartMapper.deleteByPidAndUid(o.getProductId(), userId);
-		}
-		//返回给前端数据 【详细的订单vo】
+		try {
+			orderItemMapper.batchInsert(orderItems);
+			for(OrderItem o:orderItems){
+				//三、批减少库存			
+				productMapper.reduceStockByPid(o.getProductId(), o.getQuantity());
+				//四、清空购物车
+				cartMapper.deleteByPidAndUid(o.getProductId(), userId);
+			}
+			//返回给前端数据 【详细的订单vo】
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			orderMapper.deleteByPrimaryKey(order.getId());
+			e.printStackTrace();	
+			return ServerResponse.createByErrorMessage("创建订单失败！");					
+		}		
 		OrderVo orderVo=this.assembleOrderVo(order, orderItems);		
 		return ServerResponse.createBySuccessMessage("创建订单vo类成功！", orderVo);
 	}

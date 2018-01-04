@@ -179,11 +179,13 @@
       current_unit_price, quantity, total_price, 
       create_time, update_time)
     values 
-    <foreach collection="orderItemList" index="index" open="(" item="item" separator="," close=")">
-      #{item.id,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER}, #{item.orderNo,jdbcType=BIGINT}, 
-      #{item.productId,jdbcType=INTEGER}, #{item.productName,jdbcType=VARCHAR}, #{item.productImage,jdbcType=VARCHAR}, 
-      #{item.currentUnitPrice,jdbcType=DECIMAL}, #{item.quantity,jdbcType=INTEGER}, #{item.totalPrice,jdbcType=DECIMAL}, 
-      now(), now()
+    <foreach collection="orderItemList" index="index"   separator=","  item="item">
+      (
+	      #{item.id,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER}, #{item.orderNo,jdbcType=BIGINT}, 
+	      #{item.productId,jdbcType=INTEGER}, #{item.productName,jdbcType=VARCHAR}, #{item.productImage,jdbcType=VARCHAR}, 
+	      #{item.currentUnitPrice,jdbcType=DECIMAL}, #{item.quantity,jdbcType=INTEGER}, #{item.totalPrice,jdbcType=DECIMAL}, 
+	      now(), now()
+      )
     </foreach>   
   </insert>
 </mapper>
