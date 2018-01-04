@@ -86,23 +86,23 @@
 		</bean>				
 		<!-- 事务管理配置【表示碰到事务该怎么处理】 -->
 		<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-			<property name="dataSource" ref="dataSource"/>
-			<property name="rollbackOnCommitFailure" value="true"/>
+			<property name="dataSource" ref="dataSource"/>			
 		</bean>
 		<!-- 添加声明式事务控制 【表示启用事务注解】-->
 		<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>		
+		
 		<tx:advice id="txAdvice" transaction-manager="transactionManager">
 			<tx:attributes>
 				<tx:method name="get*" read-only="true"  />  
 	            <tx:method name="query*" read-only="true"  />  
 	            <tx:method name="find*" read-only="true" />  
 	            <tx:method name="is*" read-only="true" />  
-	            <tx:method name="*" rollback-for="Exception"/><!--默认回滚机制是RuntimeException-->  
+	            <tx:method name="*" propagation="REQUIRED"/>
 			</tx:attributes>
 		</tx:advice>
 		<!-- 配合事务advice 直接给所有service方法织入事务 -->	
 		<aop:config>
-			<aop:pointcut id="service" expression=" execution(* com.mmall.service.*.*(..))" /><!-- 声明所有包含Service的类的所有方法使用事务   -->
+			<aop:pointcut id="service" expression=" execution(* com.mmall.service.impl..*.*(..))" />
 	        <aop:advisor advice-ref="txAdvice" pointcut-ref="service" />  
 		</aop:config>
 </beans>
