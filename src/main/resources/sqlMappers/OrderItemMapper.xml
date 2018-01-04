@@ -28,7 +28,7 @@
     delete from mmall_order_item
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.mmall.pojo.OrderItem">
+  <insert id="insert" parameterType="com.mmall.pojo.OrderItem" useGeneratedKeys="true" keyProperty="id">
     insert into mmall_order_item (id, user_id, order_no, 
       product_id, product_name, product_image, 
       current_unit_price, quantity, total_price, 
