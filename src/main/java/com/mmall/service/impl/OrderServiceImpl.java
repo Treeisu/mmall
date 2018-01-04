@@ -102,7 +102,7 @@ public class OrderServiceImpl implements IOrderService {
 		Order order=this.assembleOrder(userId, shippingId, payment);
 		if(order==null){
 			return ServerResponse.createByErrorMessage("订单号生存错误! 数据写入失败");
-		}		
+		}
 		for(OrderItem o:orderItems){
 			o.setOrderNo(order.getOrderNo());//设置订单明细的订单号
 		}
@@ -117,8 +117,8 @@ public class OrderServiceImpl implements IOrderService {
 			}
 			//返回给前端数据 【详细的订单vo】
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			orderMapper.deleteByPrimaryKey(order.getId());
+			// TODO Auto-generated catch block			
+			orderMapper.deleteByPrimaryKey(orderMapper.selectByOrderNo(order.getOrderNo()).getId());
 			e.printStackTrace();	
 			return ServerResponse.createByErrorMessage("创建订单失败！");					
 		}		
