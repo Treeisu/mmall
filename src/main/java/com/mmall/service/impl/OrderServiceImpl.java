@@ -118,7 +118,7 @@ public class OrderServiceImpl implements IOrderService {
 			//返回给前端数据 【详细的订单vo】
 		} catch (Exception e) {
 			// TODO Auto-generated catch block			
-			orderMapper.deleteByPrimaryKey(orderMapper.selectByOrderNo(order.getOrderNo()).getId());
+			orderMapper.deleteByPrimaryKey(order.getId());
 			e.printStackTrace();	
 			return ServerResponse.createByErrorMessage("创建订单失败！");					
 		}		
