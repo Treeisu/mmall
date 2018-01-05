@@ -18,7 +18,6 @@
         <!--第一步：开启注解功能，并且进行项目扫描，加载service及其以下的注解类-->  		
   		<mvc:annotation-driven></mvc:annotation-driven>
   		<context:component-scan base-package="com.mmall.service.impl"></context:component-scan>
-  		<context:component-scan base-package="com.mmall.dao"></context:component-scan>
 		<!-- <context:property-placeholder location="classpath*:jdbc.properties" ignore-unresolvable="true"/> -->
 		<!-- 第三步：导入spring整合DataSource的配置文件【因为这里将DataSource配置分离成另一个xml了】 -->
 		<import resource="applicationContext-dataSource.xml"/>
