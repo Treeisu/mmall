@@ -16,7 +16,7 @@
         http://www.springframework.org/schema/tx     
         http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
         <!--第一步：开启注解功能，扫描Controller下的类，加载controller的注解类-->
-		<context:component-scan base-package="com.mmall" />
+		<context:component-scan base-package="com.mmall.controller"></context:component-scan>
 		<mvc:annotation-driven >
 			<mvc:message-converters>
 				<bean class="org.springframework.http.converter.StringHttpMessageConverter">

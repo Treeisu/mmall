@@ -2,6 +2,7 @@ package com.mmall.service;
 
 
 import java.util.Map;
+
 import com.github.pagehelper.PageInfo;
 import com.mmall.common.ServerResponse;
 import com.mmall.vo.OrderProductVo;
@@ -14,7 +15,7 @@ public interface IOrderService {
 	ServerResponse<Map<String, String>> pay(Long orderNo,Integer userId,String path);
 	ServerResponse<Boolean> queryOrderPayStatusIsSuccess(Long orderNo,Integer userId);
 	ServerResponse<String> aliCallBackCheck(Map<String,String[]> params);
-	ServerResponse<OrderVo> createOrder(Integer userId, Integer shippingId);
+	ServerResponse<OrderVo> createOrder(Integer userId, Integer shippingId) throws Exception;
 	ServerResponse<String> cancel(Integer userId, Long orderNo);
 	ServerResponse<OrderProductVo> getOrderCartProduct(Integer userId);
 	ServerResponse<OrderVo> getOrderDetail(Integer userId, Long orderNo);

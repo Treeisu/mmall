@@ -16,10 +16,35 @@
         http://www.springframework.org/schema/tx     
         http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
         <!--第一步：开启注解功能，并且进行项目扫描，加载service及其以下的注解类-->  		
-  		<context:component-scan base-package="com.mmall"></context:component-scan>
-  		<mvc:annotation-driven />
+  		<mvc:annotation-driven></mvc:annotation-driven>
+  		<context:component-scan base-package="com.mmall.service.impl"></context:component-scan>
+  		<context:component-scan base-package="com.mmall.dao"></context:component-scan>
 		<!-- <context:property-placeholder location="classpath*:jdbc.properties" ignore-unresolvable="true"/> -->
 		<!-- 第三步：导入spring整合DataSource的配置文件【因为这里将DataSource配置分离成另一个xml了】 -->
 		<import resource="applicationContext-dataSource.xml"/>
-				
+		
+		
+		<!-- 事务管理配置【表示碰到事务该怎么处理】 -->
+		<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+			<property name="dataSource" ref="dataSource"/>			
+		</bean>
+		<!-- 添加声明式事务控制 【表示启用事务注解】-->	
+		<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+		<tx:advice id="txAdvice" transaction-manager="transactionManager">
+			<tx:attributes>
+					<tx:method name="*" />
+					<tx:method name="get*" read-only="true" />
+					<tx:method name="find*" read-only="true" />
+					<tx:method name="select*" read-only="true" />
+					<tx:method name="delete*" propagation="REQUIRED" />
+					<tx:method name="update*" propagation="REQUIRED" />
+					<tx:method name="add*" propagation="REQUIRED" />
+					<tx:method name="insert*" propagation="REQUIRED" />
+					<tx:method name="*" propagation="REQUIRED" />
+			</tx:attributes>
+		</tx:advice>	
+		<aop:config expose-proxy="true">
+			<aop:pointcut id="ServicePointcut" expression="execution(* com.mmall.service.impl..*.*(..))" />
+			<aop:advisor pointcut-ref="ServicePointcut" advice-ref="txAdvice" />	
+		</aop:config>
 </beans>

@@ -15,7 +15,6 @@
         http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd     
         http://www.springframework.org/schema/tx     
         http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
-  		<mvc:annotation-driven />
   		<!-- 加载DataSource连接数据库的资源文件 -->
   		<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
   			<property name="order" value="2"></property>
@@ -83,26 +82,5 @@
 		<!--扫描dao层接口将dao层添加进来 -->
 		<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 			<property name="basePackage" value="com.mmall.dao"/>
-		</bean>				
-		<!-- 事务管理配置【表示碰到事务该怎么处理】 -->
-		<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-			<property name="dataSource" ref="dataSource"/>			
-		</bean>
-		<!-- 添加声明式事务控制 【表示启用事务注解】-->
-		<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>		
-		
-		<tx:advice id="txAdvice" transaction-manager="transactionManager">
-			<tx:attributes>
-				<tx:method name="get*" read-only="true"  />  
-	            <tx:method name="query*" read-only="true"  />  
-	            <tx:method name="find*" read-only="true" />  
-	            <tx:method name="is*" read-only="true" />  
-	            <tx:method name="*" propagation="REQUIRED"/>
-			</tx:attributes>
-		</tx:advice>
-		<!-- 配合事务advice 直接给所有service方法织入事务 -->	
-		<aop:config>
-			<aop:pointcut id="service" expression=" execution(* com.mmall.service.impl..*.*(..))" />
-	        <aop:advisor advice-ref="txAdvice" pointcut-ref="service" />  
-		</aop:config>
+		</bean>								
 </beans>

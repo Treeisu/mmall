@@ -23,11 +23,10 @@ public class CategoryServiceImpl implements ICategroyService {
 	@Autowired
 	private CategoryMapper categoryMapper;
 	
-	
-	@Override
 	/**
 	 * 添加商品类目
 	 */
+	@Override
 	public ServerResponse<String> addCategory(String categoryName, Integer parentId) {
 		// TODO Auto-generated method stub
 		if(StringUtils.isBlank(categoryName)||parentId==null){

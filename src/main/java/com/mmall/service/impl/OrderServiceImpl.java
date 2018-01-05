@@ -84,7 +84,7 @@ public class OrderServiceImpl implements IOrderService {
 	 * 创建订单
 	 */
 	@Override
-	public ServerResponse<OrderVo> createOrder(Integer userId, Integer shippingId) {
+	public ServerResponse<OrderVo> createOrder(Integer userId, Integer shippingId) throws Exception{
 		// TODO Auto-generated method stub		
 		//调用getOrderItem方法
 		ServerResponse<List<OrderItem>> serverResponse=this.getOrderItems(userId);
@@ -97,30 +97,23 @@ public class OrderServiceImpl implements IOrderService {
 		BigDecimal payment=new BigDecimal("0");
 		for(OrderItem o:orderItems){			
 			payment=BigDecimalUtil.add(payment.doubleValue(), o.getTotalPrice().doubleValue());
-		}
+		}		
 		//一、生成订单
 		Order order=this.assembleOrder(userId, shippingId, payment);
 		if(order==null){
-			return ServerResponse.createByErrorMessage("订单号生存错误! 数据写入失败");
+			return ServerResponse.createByErrorMessage("订单号生成错误! 数据写入失败");
 		}
 		for(OrderItem o:orderItems){
 			o.setOrderNo(order.getOrderNo());//设置订单明细的订单号
 		}
+		orderItemMapper.batchInsert(orderItems);
 		//二、批量插入数据orderItems
-		try {
-			orderItemMapper.batchInsert(orderItems);
-			for(OrderItem o:orderItems){
-				//三、批减少库存			
-				productMapper.reduceStockByPid(o.getProductId(), o.getQuantity());
-				//四、清空购物车
-				cartMapper.deleteByPidAndUid(o.getProductId(), userId);
-			}
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block			
-			orderMapper.deleteByPrimaryKey(order.getId());
-			e.printStackTrace();	
-			return ServerResponse.createByErrorMessage("创建订单失败！");					
+		orderItemMapper.batchInsert(orderItems);
+		for(OrderItem o:orderItems){
+			//三、批减少库存			
+			productMapper.reduceStockByPid(o.getProductId(), o.getQuantity());
+			//四、清空购物车
+			cartMapper.deleteByPidAndUid(o.getProductId(), userId);
 		}			
 		//返回给前端数据 【详细的订单vo】
 		OrderVo orderVo=this.assembleOrderVo(order, orderItems);		

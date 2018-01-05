@@ -1,8 +1,10 @@
 package com.mmall.controller.portal;
 
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +57,14 @@ public class OrderController {
 		if(user==null){
 			return ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),"当前处于未登录状态，请登录系统！");
 		}
-		ServerResponse<OrderVo> response=iOrderService.createOrder(user.getId(), shippingId);		
+		ServerResponse<OrderVo> response;
+		try {
+			response = iOrderService.createOrder(user.getId(), shippingId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			response=ServerResponse.createByErrorMessage("订单生成错误！");
+			e.printStackTrace();
+		}
 		return response;		
 	}
 	/**
