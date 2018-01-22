@@ -52,7 +52,7 @@ import com.mmall.service.IOrderService;
 import com.mmall.util.BigDecimalUtil;
 import com.mmall.util.DateTimeUtil;
 import com.mmall.util.FtpUtil;
-import com.mmall.util.PropertiesUtil;
+import com.mmall.util.PropertiesUtil_mmall;
 import com.mmall.vo.OrderItemVo;
 import com.mmall.vo.OrderProductVo;
 import com.mmall.vo.OrderVo;
@@ -173,7 +173,7 @@ public class OrderServiceImpl implements IOrderService {
 		OrderProductVo orderProductVo=new OrderProductVo();
 		orderProductVo.setProductTotalPrice(productTotalPrice);
 		orderProductVo.setOrderItemVoList(orderItemVos);
-		orderProductVo.setImgHost(PropertiesUtil.getProperty("ftp.server.http.prefix"));
+		orderProductVo.setImgHost(PropertiesUtil_mmall.getProperty("ftp.server.http.prefix"));
 		return ServerResponse.createBySuccessMessage("获得订单预览信息成功！", orderProductVo);
 	}
 	/**
@@ -415,7 +415,8 @@ public class OrderServiceImpl implements IOrderService {
         ExtendParams extendParams = new ExtendParams();
         extendParams.setSysServiceProviderId("2088100200300400500");       
         /**
-         * 创建商品购买明细list
+         * 将商品购买明细orderItem的list列表转化成支付宝的商品订单list
+         * GoodsDetail这个类是支付宝jar包里的，是用于支付宝创建订单需要的类型
          */            
         List<GoodsDetail> goodsDetailList = new ArrayList<GoodsDetail>();//新建一个list用于存放购买明细【这个list需要传给支付宝】      
         //遍历查询出来的list，封装购买明细list
@@ -435,10 +436,16 @@ public class OrderServiceImpl implements IOrderService {
             .setUndiscountableAmount(undiscountableAmount).setSellerId(sellerId).setBody(body)
             .setOperatorId(operatorId).setStoreId(storeId).setExtendParams(extendParams)
             .setTimeoutExpress(timeoutExpress)
-            .setNotifyUrl(PropertiesUtil.getProperty("alipay.callback.url"))//支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
+            .setNotifyUrl(PropertiesUtil_mmall.getProperty("alipay.callback.url"))//支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
             .setGoodsDetailList(goodsDetailList);
-        //加载alipay的资源文件
+        //使用支付宝下面的Configs类，调用init方法加载alipay的资源文件，会自动读取相关属性配置
         Configs.init("AlipaySource.properties");
+        /**
+         * 1、创建完扫码请求的参数build，
+         * 2、读取完相关的属性配置（支付宝商户号等等...）
+         * 3、就可以新建交易对象tradeService，进行初始化
+         * 4、用tradeService去发送扫码请求，若成功则返回二维码
+         */
         //初始化【当面付】服务对象
         tradeService = new AlipayTradeServiceImpl.ClientBuilder().build();
         //tradeService对象调用tradePrecreate方法，发送扫码请求，会返回成功还是失败的状态
@@ -471,7 +478,7 @@ public class OrderServiceImpl implements IOrderService {
 				/**
 				 * 线上 二维码图片访问地址如下
 				 */
-				String qrUrl=PropertiesUtil.getProperty("ftp.server.http.prefix")+targetFile.getName();
+				String qrUrl=PropertiesUtil_mmall.getProperty("ftp.server.http.prefix")+targetFile.getName();
 				Map<String,String> map= new HashMap<String,String>();
 				map.put("qrUrl", qrUrl);
                 return ServerResponse.createBySuccessMessage("获取二维码成功", map);
@@ -611,7 +618,7 @@ public class OrderServiceImpl implements IOrderService {
     	orderVo.setEndTime(DateTimeUtil.dateToStr(order.getEndTime()));
     	orderVo.setCreateTime(DateTimeUtil.dateToStr(order.getCreateTime()));
     	orderVo.setCloseTime(DateTimeUtil.dateToStr(order.getCloseTime()));
-    	orderVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix"));
+    	orderVo.setImageHost(PropertiesUtil_mmall.getProperty("ftp.server.http.prefix"));
     	List<OrderItemVo> orderItemVos=new ArrayList<OrderItemVo>();
     	for(OrderItem o:orderItems){
     		OrderItemVo orderItemVo = assembleOrderItemVo(o);

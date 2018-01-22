@@ -18,7 +18,7 @@ import com.mmall.pojo.Cart;
 import com.mmall.pojo.Product;
 import com.mmall.service.ICartService;
 import com.mmall.util.BigDecimalUtil;
-import com.mmall.util.PropertiesUtil;
+import com.mmall.util.PropertiesUtil_mmall;
 import com.mmall.vo.CartProductVo;
 import com.mmall.vo.CartVo;
 
@@ -238,7 +238,7 @@ public class CartServiceImpl implements ICartService{
 		}
 		cartVo.setCartProductVos(listVo);
 		cartVo.setAllChecked(allFlag);
-		cartVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix"));
+		cartVo.setImageHost(PropertiesUtil_mmall.getProperty("ftp.server.http.prefix"));
 		return cartVo;		
 	}
 	

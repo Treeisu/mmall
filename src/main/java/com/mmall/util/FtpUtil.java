@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 public class FtpUtil {
 	private static final Logger logger=LoggerFactory.getLogger(FtpUtil.class);
 	
-	private static String ftpIp=PropertiesUtil.getProperty("ftp.server.ip");
-	private static String ftpUser=PropertiesUtil.getProperty("ftp.user");
-	private static String ftpPassword=PropertiesUtil.getProperty("ftp.password");
+	private static String ftpIp=PropertiesUtil_mmall.getProperty("ftp.server.ip");
+	private static String ftpUser=PropertiesUtil_mmall.getProperty("ftp.user");
+	private static String ftpPassword=PropertiesUtil_mmall.getProperty("ftp.password");
 	
 	private String ip;
 	private int port;

@@ -20,7 +20,7 @@ import com.mmall.pojo.Product;
 import com.mmall.service.ICategroyService;
 import com.mmall.service.IProductService;
 import com.mmall.util.DateTimeUtil;
-import com.mmall.util.PropertiesUtil;
+import com.mmall.util.PropertiesUtil_mmall;
 import com.mmall.vo.ProductDetailVo;
 import com.mmall.vo.ProductListVo;
 @Service("iProductService")
@@ -54,7 +54,7 @@ public class ProductServiceImpl implements IProductService{
 		productDetailVo.setStatus(product.getStatus());
 		productDetailVo.setStock(product.getStock());
 		//imageHost  读取配置文件获得
-		productDetailVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix", "http://www.jiangbiao.xyz/"));
+		productDetailVo.setImageHost(PropertiesUtil_mmall.getProperty("ftp.server.http.prefix", "http://www.jiangbiao.xyz/"));
 		//获得父级类目id
 		Integer parentCategoryId=categoryMapper.selectByPrimaryKey(product.getCategoryId()).getParentId();
 		productDetailVo.setParentCategoryId(parentCategoryId);
@@ -81,7 +81,7 @@ public class ProductServiceImpl implements IProductService{
 		productListVo.setName(product.getName());
 		productListVo.setStatus(product.getStatus());
 		//imageHost  读取配置文件获得
-		productListVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix", "http://www.jiangbiao.xyz/"));	
+		productListVo.setImageHost(PropertiesUtil_mmall.getProperty("ftp.server.http.prefix", "http://www.jiangbiao.xyz/"));	
 		return productListVo;
 	}
 	

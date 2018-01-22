@@ -17,14 +17,14 @@ import org.slf4j.LoggerFactory;
  * @date 2017年11月10日 下午2:25:11
  *
  */
-public class PropertiesUtil {
-	private static Logger logger=LoggerFactory.getLogger(PropertiesUtil.class);
+public class PropertiesUtil_mmall {
+	private static Logger logger=LoggerFactory.getLogger(PropertiesUtil_mmall.class);
 	private static Properties props;
 	static{
 		String fileName="mmall.properties";
 		props=new Properties();
 		try {
-			props.load(new InputStreamReader(PropertiesUtil.class.getClassLoader().getResourceAsStream(fileName),"UTF-8"));
+			props.load(new InputStreamReader(PropertiesUtil_mmall.class.getClassLoader().getResourceAsStream(fileName),"UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

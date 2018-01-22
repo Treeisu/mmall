@@ -23,7 +23,7 @@ import com.mmall.pojo.User;
 import com.mmall.service.IFileService;
 import com.mmall.service.IProductService;
 import com.mmall.service.IUserService;
-import com.mmall.util.PropertiesUtil;
+import com.mmall.util.PropertiesUtil_mmall;
 import com.mmall.vo.ProductDetailVo;
 
 
@@ -206,7 +206,7 @@ public class ProductManageController {
 			if(StringUtils.isBlank(uploadFileName)){
 				return ServerResponse.createByErrorMessage("上传文件失败！");
 			}
-			String url=PropertiesUtil.getProperty("ftp.server.http.prefix")+uploadFileName;
+			String url=PropertiesUtil_mmall.getProperty("ftp.server.http.prefix")+uploadFileName;
 			Map<String,String> fileMap=new HashMap<String,String>();
 			fileMap.put("uri", uploadFileName);
 			fileMap.put("url", url);			
@@ -246,7 +246,7 @@ public class ProductManageController {
 				resultMap.put("msg", "上传富文本文件失败！");			
 				return resultMap;
 			}
-			String url=PropertiesUtil.getProperty("ftp.server.http.prefix")+uploadFileName;
+			String url=PropertiesUtil_mmall.getProperty("ftp.server.http.prefix")+uploadFileName;
 			resultMap.put("success", true);
 			resultMap.put("msg", "上传富文本文件成功！");	
 			resultMap.put("file_path", url);
