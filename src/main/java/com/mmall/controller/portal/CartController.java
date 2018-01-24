@@ -124,7 +124,7 @@ public class CartController {
 		if(user==null){
 			return ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),"当前处于未登录状态，请登录系统！");
 		}		
-		ServerResponse<CartVo> response=iCartService.selectOrUnselectAll(user.getId(), Const.Cart.CHECKED);		
+		ServerResponse<CartVo> response=iCartService.update_selectOrUnselectAll(user.getId(), Const.Cart.CHECKED);		
 		return response;		
 	}
 	/**
@@ -143,7 +143,7 @@ public class CartController {
 		if(user==null){
 			return ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),"当前处于未登录状态，请登录系统！");
 		}		
-		ServerResponse<CartVo> response=iCartService.selectOrUnselectAll(user.getId(), Const.Cart.UN_CHECKED);		
+		ServerResponse<CartVo> response=iCartService.update_selectOrUnselectAll(user.getId(), Const.Cart.UN_CHECKED);		
 		return response;		
 	}	
 	/**
@@ -163,7 +163,7 @@ public class CartController {
 		if(user==null){
 			return ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),"当前处于未登录状态，请登录系统！");
 		}		
-		ServerResponse<CartVo> response=iCartService.selectOrUnselect(user.getId(), Const.Cart.CHECKED,productId);		
+		ServerResponse<CartVo> response=iCartService.update_selectOrUnselect(user.getId(), Const.Cart.CHECKED,productId);		
 		return response;		
 	}
 	/**
@@ -183,7 +183,7 @@ public class CartController {
 		if(user==null){
 			return ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),"当前处于未登录状态，请登录系统！");
 		}		
-		ServerResponse<CartVo> response=iCartService.selectOrUnselect(user.getId(), Const.Cart.UN_CHECKED,productId);		
+		ServerResponse<CartVo> response=iCartService.update_selectOrUnselect(user.getId(), Const.Cart.UN_CHECKED,productId);		
 		return response;		
 	}
 	/**

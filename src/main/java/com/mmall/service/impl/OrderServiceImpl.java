@@ -86,16 +86,16 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	public ServerResponse<OrderVo> createOrder(Integer userId, Integer shippingId) throws Exception{
 		// TODO Auto-generated method stub		
-		//调用getOrderItem方法
+		//调用getOrderItem方法  获得购物车中已勾选的物品
 		ServerResponse<List<OrderItem>> serverResponse=this.getOrderItems(userId);
 		if(serverResponse.isError()){
 			return ServerResponse.createByErrorMessage(serverResponse.getMsg());
 		}
-		//获得订单的明细
-		List<OrderItem> orderItems=serverResponse.getData();
+		//获得购物车中已勾选的物品
+		List<OrderItem> orderItemList=serverResponse.getData();
 		//计算整个订单的总价
 		BigDecimal payment=new BigDecimal("0");
-		for(OrderItem o:orderItems){			
+		for(OrderItem o:orderItemList){			
 			payment=BigDecimalUtil.add(payment.doubleValue(), o.getTotalPrice().doubleValue());
 		}		
 		//一、生成订单
@@ -103,20 +103,19 @@ public class OrderServiceImpl implements IOrderService {
 		if(order==null){
 			return ServerResponse.createByErrorMessage("订单号生成错误! 数据写入失败");
 		}
-		for(OrderItem o:orderItems){
+		for(OrderItem o:orderItemList){
 			o.setOrderNo(order.getOrderNo());//设置订单明细的订单号
 		}
-		orderItemMapper.batchInsert(orderItems);
 		//二、批量插入数据orderItems
-		orderItemMapper.batchInsert(orderItems);
-		for(OrderItem o:orderItems){
+		orderItemMapper.batchInsert(orderItemList);
+		for(OrderItem o:orderItemList){
 			//三、批减少库存			
 			productMapper.reduceStockByPid(o.getProductId(), o.getQuantity());
 			//四、清空购物车
 			cartMapper.deleteByPidAndUid(o.getProductId(), userId);
 		}			
 		//返回给前端数据 【详细的订单vo】
-		OrderVo orderVo=this.assembleOrderVo(order, orderItems);		
+		OrderVo orderVo=this.assembleOrderVo(order, orderItemList);		
 		return ServerResponse.createBySuccessMessage("创建订单vo类成功！", orderVo);
 	}
 	/**
@@ -148,6 +147,29 @@ public class OrderServiceImpl implements IOrderService {
 				productMapper.addStockByPid(o.getProductId(), o.getQuantity());
 			}
 			return ServerResponse.createBySuccessMessage("取消订单成功！");			
+		}		
+	}
+	@Override
+	public ServerResponse<String> notShow(Integer userId, Long orderNo) {
+		// TODO Auto-generated method stub
+		Order order=orderMapper.selectByOrderNoAndUid(orderNo, userId);
+		//验证订单是否存在
+		if(order==null){
+			return ServerResponse.createByErrorMessage("该用户的此订单不存在，订单号："+orderNo);
+		}
+		//验证是否已取消
+		if(order.getStatus()!=Const.OrderStatusEnum.CANCELED.getCode()){
+			return ServerResponse.createByErrorMessage("该用户的此订单处于未取消状态，订单号："+orderNo);
+		}
+		//更新订单状态
+		Order temp=new Order();
+		temp.setId(order.getId());
+		temp.setStatus(Const.OrderStatusEnum.NOTSHOW.getCode());
+		int rowCount=orderMapper.updateByPrimaryKeySelective(temp);//设置为不显示状态
+		if(rowCount<=0){
+			return ServerResponse.createByErrorMessage("数据库写入异常，订单删除失败！");
+		}else{						
+			return ServerResponse.createBySuccessMessage("删除订单成功！");			
 		}		
 	}
 	/**

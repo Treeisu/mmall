@@ -120,7 +120,7 @@ public class CartServiceImpl implements ICartService{
 	 * 全选或者全取消
 	 */
 	@Override
-	public ServerResponse<CartVo> selectOrUnselectAll(Integer userId,Integer checkedStatus) {
+	public ServerResponse<CartVo> update_selectOrUnselectAll(Integer userId,Integer checkedStatus) {
 		// TODO Auto-generated method stub
 		cartMapper.selectOrUnselectAll(userId, checkedStatus);
 		CartVo cartVo=this.getCartVoLimit(userId);		
@@ -130,7 +130,7 @@ public class CartServiceImpl implements ICartService{
 	 * 单个选中或者单个取消
 	 */
 	@Override
-	public ServerResponse<CartVo> selectOrUnselect(Integer userId,Integer checkedStatus,Integer productId) {
+	public ServerResponse<CartVo> update_selectOrUnselect(Integer userId,Integer checkedStatus,Integer productId) {
 		// TODO Auto-generated method stub
 		cartMapper.selectOrUnselect(userId, checkedStatus, productId);
 		CartVo cartVo=this.getCartVoLimit(userId);		

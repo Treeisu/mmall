@@ -33,7 +33,6 @@
 		<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 		<tx:advice id="txAdvice" transaction-manager="transactionManager">
 			<tx:attributes>
-					<tx:method name="*" />
 					<tx:method name="get*" read-only="true" />
 					<tx:method name="find*" read-only="true" />
 					<tx:method name="select*" read-only="true" />

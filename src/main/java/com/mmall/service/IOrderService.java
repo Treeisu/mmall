@@ -17,6 +17,7 @@ public interface IOrderService {
 	ServerResponse<String> aliCallBackCheck(Map<String,String[]> params);
 	ServerResponse<OrderVo> createOrder(Integer userId, Integer shippingId) throws Exception;
 	ServerResponse<String> cancel(Integer userId, Long orderNo);
+	ServerResponse<String> notShow(Integer userId, Long orderNo);
 	ServerResponse<OrderProductVo> getOrderCartProduct(Integer userId);
 	ServerResponse<OrderVo> getOrderDetail(Integer userId, Long orderNo);
 	ServerResponse<OrderVo> manageGetOrderDetail(Long orderNo);

@@ -87,6 +87,17 @@ public class OrderController {
 		ServerResponse<String> response=iOrderService.cancel(user.getId(), orderNo);		
 		return response;		
 	}
+	@RequestMapping(value="/del",method=RequestMethod.GET)
+	@ResponseBody
+	public ServerResponse<String> notShow(HttpSession session,Long orderNo){
+		User user=(User) session.getAttribute(Const.CURRENT_USER);
+		if(user==null){
+			return ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),"当前处于未登录状态，请登录系统！");
+		}
+		ServerResponse<String> response=iOrderService.notShow(user.getId(), orderNo);		
+		return response;		
+	}
+	
 	/**
 	 * 
 	 * @Title: getOrderCartProduct
