@@ -25,7 +25,7 @@
     select 
     <include refid="Base_Column_List" />
     from mmall_order
-    where id = #{id,jdbcType=INTEGER} and status != 01
+    where id = #{id,jdbcType=INTEGER} and status != 1
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from mmall_order
@@ -200,24 +200,24 @@
     select 
     <include refid="Base_Column_List" />
     from mmall_order
-    where order_no=#{orderNo} and user_id=#{userId} and status != 01
+    where order_no=#{orderNo} and user_id=#{userId} and status != 1
   </select>
   <select id="selectByOrderNo" parameterType="long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from mmall_order
-    where order_no=#{orderNo} and status != 01
+    where order_no=#{orderNo} and status != 1
   </select>
   <select id="selectByUid" parameterType="int" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from mmall_order
-    where user_id=#{userId} and status != 01 order by create_time desc
+    where user_id=#{userId} and status != 1 order by create_time desc
   </select>
   <select id="selectAll"  resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from mmall_order  where status != 01
+    from mmall_order  where status != 1
     order by create_time desc
   </select>
 </mapper>
