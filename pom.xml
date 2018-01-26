@@ -7,6 +7,53 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>mmall Maven Webapp</name>
   <url>http://maven.apache.org</url>
+  <!-- repositories配置多个镜像，按顺序进行加载 -->
+  <repositories>
+  	<repository>
+		 <id>nexus</id>
+         <name>aliyun</name>
+         <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+         <releases>
+         	<enabled>true</enabled><!-- releases版本的jar是正式版，这里表示允许下载正式版jar -->
+         </releases>
+         <snapshots>
+         	<enabled>false</enabled><!-- snapshots版本的jar是不稳定版，这里表示不允许下载不稳定版jar -->
+         </snapshots>
+	</repository>
+	<repository>
+		 <id>osc</id>
+		 <name>OSChina</name>
+         <url>http://maven.oschina.net/content/groups/public/</url>
+         <releases>
+         	<enabled>true</enabled><!-- releases版本的jar是正式版，这里表示允许下载正式版jar -->
+         </releases>
+         <snapshots>
+         	<enabled>false</enabled><!-- snapshots版本的jar是不稳定版，这里表示不允许下载不稳定版jar -->
+         </snapshots>
+	</repository>	
+	<repository>
+		 <id>repo1</id>
+         <name>maven repo1</name>
+         <url>http://repo1.maven.org/maven2/</url>
+         <releases>
+         	<enabled>true</enabled>
+         </releases>
+         <snapshots>
+         	<enabled>true</enabled>
+         </snapshots>
+	</repository>
+	<repository>
+		  <id>repo2</id>
+          <name>maven repo2</name>
+          <url>http://repo2.maven.org/maven2/</url>
+          <releases>
+         	<enabled>true</enabled>
+         </releases>
+         <snapshots>
+         	<enabled>true</enabled>
+         </snapshots>
+	</repository>
+  </repositories> 
   <properties>
   	<!-- 编码配置参数 -->
   	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
