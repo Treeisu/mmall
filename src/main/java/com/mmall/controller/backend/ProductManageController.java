@@ -14,15 +14,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.github.pagehelper.PageInfo;
 import com.mmall.common.Const;
 import com.mmall.common.ResponseCode;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.Product;
 import com.mmall.pojo.User;
-import com.mmall.service.IFileService;
+import com.mmall.service.IFileServiceFTP;
 import com.mmall.service.IProductService;
 import com.mmall.service.IUserService;
+import com.mmall.util.FtpUtil;
 import com.mmall.util.PropertiesUtil_mmall;
 import com.mmall.vo.ProductDetailVo;
 
@@ -45,7 +47,7 @@ public class ProductManageController {
 	@Autowired
 	private IProductService iProductService;
 	@Autowired
-	private IFileService iFileService;
+	private IFileServiceFTP iFileService;
 	
 	
 	/**
@@ -201,8 +203,13 @@ public class ProductManageController {
 		if(iuserService.checkAdminRole(user).isSuccess()){//该用户是管理员
 			//获得本地路径
 			String path=session.getServletContext().getRealPath("upload");
-			//开始上传
-			String uploadFileName=iFileService.upload(file, path);
+			//1、初始化ftp需要的连接参数
+		    String ftpIp=PropertiesUtil_mmall.getProperty("ftp.server.ip");
+		    int port=21;
+		    String ftpUserName=PropertiesUtil_mmall.getProperty("ftp.image_user");
+		    String ftpUserPassword=PropertiesUtil_mmall.getProperty("ftp.image_password");
+			//开始上传			
+			String uploadFileName=iFileService.upload(path,file,new FtpUtil(ftpIp, port, ftpUserName, ftpUserPassword));
 			if(StringUtils.isBlank(uploadFileName)){
 				return ServerResponse.createByErrorMessage("上传文件失败！");
 			}
@@ -239,8 +246,13 @@ public class ProductManageController {
 		if(iuserService.checkAdminRole(user).isSuccess()){//该用户是管理员
 			//获得本地路径
 			String path=session.getServletContext().getRealPath("upload");
+			//1、初始化ftp需要的连接参数
+		    String ftpIp=PropertiesUtil_mmall.getProperty("ftp.server.ip");
+		    int port=21;
+		    String ftpUserName=PropertiesUtil_mmall.getProperty("ftp.image_user");
+		    String ftpUserPassword=PropertiesUtil_mmall.getProperty("ftp.image_password");
 			//开始上传
-			String uploadFileName=iFileService.upload(file, path);	
+			String uploadFileName=iFileService.upload(path,file,new FtpUtil(ftpIp, port, ftpUserName, ftpUserPassword));	
 			if(StringUtils.isBlank(uploadFileName)){
 				resultMap.put("success", false);
 				resultMap.put("msg", "上传富文本文件失败！");			

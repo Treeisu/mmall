@@ -10,15 +10,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.collect.Lists;
-import com.mmall.service.IFileService;
+import com.mmall.service.IFileServiceFTP;
 import com.mmall.util.FtpUtil;
-@Service("iFileService")
-public class FileServiceImpl implements IFileService{
-	private Logger logger=LoggerFactory.getLogger(FileServiceImpl.class);
+
+
+@Service("iFileServiceFtp")
+public class FileServiceFtpImpl implements IFileServiceFTP{
+	private Logger logger=LoggerFactory.getLogger(FileServiceFtpImpl.class);
 	/**
 	 * 上传成功则返回文件名
 	 */
-	public String upload(MultipartFile file,String path){
+	public String upload(String path,MultipartFile file,FtpUtil ftpUtil){
 		/**
 		 * 一、先上传到本地
 		 * 二、再上传到FTP服务器
@@ -43,9 +45,9 @@ public class FileServiceImpl implements IFileService{
 			//一、开始上传到本地
 			file.transferTo(fileObj);
 			logger.info("开始上传文件至ftp服务器,文件原始名为:{},上传的远程相对路径:{},上传存储的文件名:{}",fileName,path,uploadFileName);
-			//二、将fileObj上传至ftp服务器上；服务器上的路径为/img
+			//二、将fileObj上传至ftp服务器上；服务器上的路径为/img			
 			String remotePath="/usr/ftpfile/img";
-			FtpUtil.uplod(remotePath,Lists.newArrayList(fileObj));
+			ftpUtil.uploadFile(remotePath,Lists.newArrayList(fileObj));
 			logger.info("开始删除本地的上传文件");
 			//三、将项目路径下的upload文件删除
 			fileObj.delete();

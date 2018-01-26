@@ -9,12 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class FtpUtil {
-	private static final Logger logger=LoggerFactory.getLogger(FtpUtil.class);
-	
-	private static String ftpIp=PropertiesUtil_mmall.getProperty("ftp.server.ip");
-	private static String ftpUser=PropertiesUtil_mmall.getProperty("ftp.user");
-	private static String ftpPassword=PropertiesUtil_mmall.getProperty("ftp.password");
-	
+	private static final Logger logger=LoggerFactory.getLogger(FtpUtil.class);	
 	private String ip;
 	private int port;
 	private String user;
@@ -59,23 +54,6 @@ public class FtpUtil {
 	}
 	/**
 	 * 
-	 * @Title: uploda
-	 * @Description: TODO 暴露的上传至ftp服务器的方法供调用
-	 * @param @param list
-	 * @param @return
-	 * @param @throws IOException    
-	 * @return boolean    
-	 * @throws
-	 */
-	public static boolean uplod(String remotePath,List<File> list) throws IOException{
-		FtpUtil ftpUtil=new FtpUtil(ftpIp, 21, ftpUser, ftpPassword);//初始化连接参数
-		logger.info("开始连接ftp服务器");
-		boolean result=ftpUtil.uploadFile(remotePath, list);//上传到ftp服务器默认目录下的/img目录下
-		logger.info("上传文件至ftp服务器结束，上传结果:{}",result);
-		return result;		
-	}
-	/**
-	 * 
 	 * @Title: uploadFile
 	 * @Description: TODO 上传文件
 	 * @param @param remotePath
@@ -85,11 +63,12 @@ public class FtpUtil {
 	 * @return boolean    
 	 * @throws
 	 */
-	private boolean uploadFile(String remotePath,List<File> list) throws IOException{
+	public boolean uploadFile(String remotePath,List<File> list) throws IOException{
 		boolean uploaded=false;
-		FileInputStream fileInputStream=null;//输入流
-		//连接ftp服务器
-		if(connectServer(this.ip, this.port, this.user, this.password)){
+		boolean result=this.connectServer(this.ip, this.port, this.user, this.password);
+		if(result){
+			FileInputStream fileInputStream=null;//输入流
+			//连接ftp服务器
 			try {
 				ftpClient.changeWorkingDirectory(remotePath);//需要上传的文件目录
 				ftpClient.setBufferSize(1024);

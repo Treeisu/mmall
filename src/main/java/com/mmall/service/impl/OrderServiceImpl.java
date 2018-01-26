@@ -488,15 +488,25 @@ public class OrderServiceImpl implements IOrderService {
                 /**
                  * 上传至ftp服务器上
                  */
+                boolean uploadResult=false;
                 String qrFileName=String.format("qr-%s.png", response.getOutTradeNo());//文件名
                 File targetFile = new File(path,qrFileName);             
 				try {
-					FtpUtil.uplod("/usr/ftpfile/alipay/qrCode",Lists.newArrayList(targetFile));//路径和文件
+					  //1、初始化ftp需要的连接参数
+					  String ftpIp=PropertiesUtil_mmall.getProperty("ftp.server.ip");
+					  int port=21;
+					  String ftpUserName=PropertiesUtil_mmall.getProperty("ftp.qr_user");
+					  String ftpUserPassword=PropertiesUtil_mmall.getProperty("ftp.qr_password");
+					  //2、新建连接对象
+					  FtpUtil ftpUtil=new FtpUtil(ftpIp, port, ftpUserName, ftpUserPassword);
+					  //3、开始调用上传方法[会对登录进行验证]
+					  uploadResult=ftpUtil.uploadFile("/usr/ftpfile/alipay/qrCode", Lists.newArrayList(targetFile));				 
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					logger.error("ftp上传二维码失败",e);
 					e.printStackTrace();
 				}
+				System.out.println("上传二维码结果："+uploadResult);
 				/**
 				 * 线上 二维码图片访问地址如下
 				 */

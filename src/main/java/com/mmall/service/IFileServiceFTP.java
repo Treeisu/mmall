@@ -2,6 +2,8 @@ package com.mmall.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mmall.util.FtpUtil;
+
 /**
  * 
  * @ClassName: IFileService
@@ -10,6 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
  * @date 2017年11月13日 上午10:58:18
  *
  */
-public interface IFileService {
-	String upload(MultipartFile file,String path);
+public interface IFileServiceFTP {
+	String upload(String path,MultipartFile file,FtpUtil ftpUtil);
 }
