@@ -477,20 +477,27 @@ public class OrderServiceImpl implements IOrderService {
             	logger.info("支付宝预下单成功: )");
                 AlipayTradePrecreateResponse response = result.getResponse();//得到响应对象【里面含有各种信息，包括二维码信息】
                 dumpResponse(response);//打印响应对象
+                /**
+                 * 首先接收来自支付宝返回的二维码图片
+                 * 将文件存放于tomcat目录下
+                 */
+                //tomcat下的路径
                 File folder=new File(path);
                 if(!folder.exists()){
                 	folder.setWritable(true);//赋予可以操作
                 	folder.mkdirs();//创建目录
                 }
-                //需要修改为运行机器上的路径【二维码存放的路径】
-                String qrPath = String.format(path+"/"+"qr-%s.png",response.getOutTradeNo());               
+                //qrpath为文件路径+文件名
+                String qrPath = String.format(path+"/qr-%s.png",response.getOutTradeNo());               
+                //获得到图片文件，以设定的文件名存放于path下
                 ZxingUtils.getQRCodeImge(response.getQrCode(), 256, qrPath);
                 /**
                  * 上传至ftp服务器上
                  */
                 boolean uploadResult=false;
-                String qrFileName=String.format("qr-%s.png", response.getOutTradeNo());//文件名
-                File targetFile = new File(path,qrFileName);             
+//              String qrFileName=String.format("qrFTP-%s.png", response.getOutTradeNo());//生成文件名，上传至ftp服务器
+                //从tomcat下获得图片文件的资源
+                File targetFile = new File(qrPath);             
 				try {
 					  //1、初始化ftp需要的连接参数
 					  String ftpIp=PropertiesUtil_mmall.getProperty("ftp.server.ip");
@@ -500,7 +507,7 @@ public class OrderServiceImpl implements IOrderService {
 					  //2、新建连接对象
 					  FtpUtil ftpUtil=new FtpUtil(ftpIp, port, ftpUserName, ftpUserPassword);
 					  //3、开始调用上传方法[会对登录进行验证]
-					  uploadResult=ftpUtil.uploadFile("/usr/ftpfile/alipay/qrCode", Lists.newArrayList(targetFile));				 
+					  uploadResult=ftpUtil.uploadFile("./qrImgs/qr_img", Lists.newArrayList(targetFile));				 
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					logger.error("ftp上传二维码失败",e);
@@ -510,7 +517,7 @@ public class OrderServiceImpl implements IOrderService {
 				/**
 				 * 线上 二维码图片访问地址如下
 				 */
-				String qrUrl=PropertiesUtil_mmall.getProperty("ftp.server.http.prefix")+targetFile.getName();
+				String qrUrl=PropertiesUtil_mmall.getProperty("ftp.server.http.qr_prefix")+targetFile.getName();
 				Map<String,String> map= new HashMap<String,String>();
 				map.put("qrUrl", qrUrl);
                 return ServerResponse.createBySuccessMessage("获取二维码成功", map);

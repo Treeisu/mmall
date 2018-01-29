@@ -70,7 +70,8 @@ public class FtpUtil {
 			FileInputStream fileInputStream=null;//输入流
 			//连接ftp服务器
 			try {
-				ftpClient.changeWorkingDirectory(remotePath);//需要上传的文件目录
+				ftpClient.makeDirectory(remotePath);//创建目录
+				ftpClient.changeWorkingDirectory(remotePath);//改变上传的目录【默认是用户的家目录】
 				ftpClient.setBufferSize(1024);
 				ftpClient.setControlEncoding("UTF-8");
 				ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);//设置成二进制文件类型
