@@ -194,7 +194,7 @@ public class ProductManageController {
 	 */
 	@RequestMapping(value="/upload",method=RequestMethod.POST)
 	@ResponseBody
-	public ServerResponse<Map<String,String>> upload(HttpSession session,@RequestParam(value="file",required=false)MultipartFile file){
+	public ServerResponse<Map<String,String>> upload(HttpSession session,@RequestParam(value="file",required=false)MultipartFile file,@RequestParam(value="remotePath",defaultValue="")String remotePath){
 		User user=(User) session.getAttribute(Const.CURRENT_USER);
 		if(user==null){
 			return ServerResponse.createByErrorMessage(ResponseCode.NEED_LOGIN.getCode(),"管理员当前处于未登录状态，请登录系统！");
@@ -209,7 +209,7 @@ public class ProductManageController {
 		    String ftpUserName=PropertiesUtil_mmall.getProperty("ftp.image_user");
 		    String ftpUserPassword=PropertiesUtil_mmall.getProperty("ftp.image_password");
 			//开始上传			
-			String uploadFileName=iFileService.upload(path,file,new FtpUtil(ftpIp, port, ftpUserName, ftpUserPassword));
+			String uploadFileName=iFileService.upload(path,remotePath,file,new FtpUtil(ftpIp, port, ftpUserName, ftpUserPassword));
 			if(StringUtils.isBlank(uploadFileName)){
 				return ServerResponse.createByErrorMessage("上传文件失败！");
 			}
@@ -234,7 +234,7 @@ public class ProductManageController {
 	 */
 	@RequestMapping(value="/richtext_img_upload",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> richtextImgUpload(HttpSession session,@RequestParam(value="file",required=false)MultipartFile file,HttpServletResponse response){
+	public Map<String,Object> richtextImgUpload(HttpSession session,@RequestParam(value="file",required=false)MultipartFile file,@RequestParam(value="remotePath",defaultValue="")String remotePath,HttpServletResponse response){
 		User user=(User) session.getAttribute(Const.CURRENT_USER);
 		Map<String,Object> resultMap=new HashMap<String,Object>();
 		if(user==null){
@@ -252,7 +252,7 @@ public class ProductManageController {
 		    String ftpUserName=PropertiesUtil_mmall.getProperty("ftp.image_user");
 		    String ftpUserPassword=PropertiesUtil_mmall.getProperty("ftp.image_password");
 			//开始上传
-			String uploadFileName=iFileService.upload(path,file,new FtpUtil(ftpIp, port, ftpUserName, ftpUserPassword));	
+			String uploadFileName=iFileService.upload(path,remotePath,file,new FtpUtil(ftpIp, port, ftpUserName, ftpUserPassword));	
 			if(StringUtils.isBlank(uploadFileName)){
 				resultMap.put("success", false);
 				resultMap.put("msg", "上传富文本文件失败！");			

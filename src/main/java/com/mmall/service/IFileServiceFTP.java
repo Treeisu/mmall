@@ -13,5 +13,5 @@ import com.mmall.util.FtpUtil;
  *
  */
 public interface IFileServiceFTP {
-	String upload(String path,MultipartFile file,FtpUtil ftpUtil);
+	String upload(String path,String remotePath,MultipartFile file,FtpUtil ftpUtil);
 }

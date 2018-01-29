@@ -20,16 +20,14 @@ public class FileServiceFtpImpl implements IFileServiceFTP{
 	/**
 	 * 上传成功则返回文件名
 	 */
-	public String upload(String path,MultipartFile file,FtpUtil ftpUtil){
+	public String upload(String path,String remotePath,MultipartFile file,FtpUtil ftpUtil){
 		/**
 		 * 一、先上传到本地
 		 * 二、再上传到FTP服务器
 		 * 三、删除本地的文件
 		 */
-		//获得原始文件名【上传时候的名字】
-		String fileName=file.getOriginalFilename();
-		//获得文件的扩展名【用于判断是什么文件】  例如：xxx.xxx.jp
-		String fileExtensionName=fileName.substring(fileName.lastIndexOf(".")+1);
+		//获得文件的扩展名
+		String fileExtensionName=file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
 		//重新命名文件【得到不重复的文件名】
 		String uploadFileName=UUID.randomUUID().toString()+"."+fileExtensionName;		
 		//创建文件夹目录【项目路径下的】
@@ -38,15 +36,13 @@ public class FileServiceFtpImpl implements IFileServiceFTP{
 			fileDir.setWritable(true);//首先，赋予可写权限
 			fileDir.mkdirs();
 		}
-		//封装文件实体
+		//封装成本地tomcat保存的  文件实体
 		File fileObj=new File(path,uploadFileName);
 		try {
-			logger.info("开始上传文件至本地,文件原始名为:{},上传的路径:{},上传存储的文件名:{}",fileName,path,uploadFileName);
+			logger.info("开始上传文件至本地,上传的路径:{},上传的文件名:{}",path,uploadFileName);
 			//一、开始上传到本地
 			file.transferTo(fileObj);
-			logger.info("开始上传文件至ftp服务器,文件原始名为:{},上传的远程相对路径:{},上传存储的文件名:{}",fileName,path,uploadFileName);
-			//二、将fileObj上传至ftp服务器上；服务器上的路径为/img			
-			String remotePath="/usr/ftpfile/img";
+			//二、将fileObj上传至ftp服务器上；
 			ftpUtil.uploadFile(remotePath,Lists.newArrayList(fileObj));
 			logger.info("开始删除本地的上传文件");
 			//三、将项目路径下的upload文件删除
