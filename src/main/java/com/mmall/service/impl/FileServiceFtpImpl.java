@@ -53,7 +53,7 @@ public class FileServiceFtpImpl implements IFileServiceFTP{
 			logger.info("上传文件出错！",e);
 			return null;
 		}
-		return fileObj.getName();		
+		return fileObj.getName();	 	
 	}
 	
 	
