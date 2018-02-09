@@ -1,6 +1,11 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
+encoding//src/main/resource.beta=UTF-8
+encoding//src/main/resource.beta/alipaySource.properties=UTF-8
+encoding//src/main/resource.dev/alipaySource.properties=UTF-8
+encoding//src/main/resource.prod/alipaySource.properties=UTF-8
+encoding//src/main/resource.prod/datesource.properties=UTF-8
+encoding//src/main/resource.prod/logback.xml=UTF-8
+encoding//src/main/resource.prod/mmall.properties=UTF-8
 encoding//src/main/resources=UTF-8
-encoding//src/main/resources/AlipaySource.properties=UTF-8
-encoding//src/main/resources/mmall.properties=UTF-8
 encoding/<project>=UTF-8

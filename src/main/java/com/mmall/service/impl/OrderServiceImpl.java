@@ -461,7 +461,7 @@ public class OrderServiceImpl implements IOrderService {
             .setNotifyUrl(PropertiesUtil_mmall.getProperty("alipay.callback.url"))//支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
             .setGoodsDetailList(goodsDetailList);
         //使用支付宝下面的Configs类，调用init方法加载alipay的资源文件，会自动读取相关属性配置
-        Configs.init("AlipaySource.properties");
+        Configs.init("alipaySource.properties");
         /**
          * 1、创建完扫码请求的参数build，
          * 2、读取完相关的属性配置（支付宝商户号等等...）

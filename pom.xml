@@ -298,14 +298,49 @@
 				<source>1.7</source>
 				<target>1.7</target>
 				<encoding>UTF-8</encoding>
-				<!-- 此配置可以把lib下面的包在编译时加入进来  ！！如果不加此配置，发布至服务器上会找不到项目另外添加至lib下面的jar包-->
-				<!-- 比如手动添加的支付宝的jar包（因为maven仓库中没有） -->
-				<!-- 这样git提交项目至github也会把lib下的jar包一起提交上去 -->
+				<!-- 此配置可以把lib下面的包在编译时加入进来  ！！-->
+				<!-- 发布至服务器上需要使用mvn命令打成war包，如果不配置此项则会找不到lib下面的jar包 -->				
 				<compilerArguments>
 					<extdirs>${project.basedir}/src/main/webapp/WEB-INF/lib</extdirs>
 				</compilerArguments>
 			</configuration>
   		</plugin>
   	</plugins>
+  	<!-- 资源文件的加载  环境隔离配置，配合profiles进行作用 -->
+  	<resources>
+  		<resource>
+  			<directory>src/main/resources.${deploy.type}</directory>
+  			<excludes>
+  				<exclude>*.jsp</exclude>
+  			</excludes>
+  		</resource>
+  		<resource>
+			<directory>src/main/resources</directory>
+		</resource>
+  	</resources>		
   </build>
+  <!-- maven环境隔离配置 -->
+  <profiles>
+  	<profile>
+  	   <id>dev</id><!-- dev环境配置 -->
+  	   <activation>
+  	   	  <activeByDefault>true</activeByDefault><!-- 默认使用的resource环境 -->
+  	   </activation>
+  	   <properties>
+  	   	  <deploy.type>dev</deploy.type><!-- 这个标签对应的是resources里面$符号中配置的变量 -->
+  	   </properties>
+  	</profile>
+  	<profile>
+  	   <id>beta</id><!-- beta环境配置 -->
+  	   <properties>
+  	   	  <deploy.type>beta</deploy.type>
+  	   </properties>
+  	</profile>
+  	<profile>
+  	   <id>prod</id><!-- product生产环境配置 -->
+  	   <properties>
+  	   	  <deploy.type>prod</deploy.type>
+  	   </properties>
+  	</profile>
+  </profiles>
 </project>
