@@ -7,6 +7,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/test"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources.dev"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources.prod"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources.beta"/>
         <property name="context-root" value="mmall"/>
         <property name="java-output-path" value="/mmall Maven Webapp/target/classes"/>
     </wb-module>
