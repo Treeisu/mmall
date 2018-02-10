@@ -323,12 +323,12 @@
   <profiles>
   	<profile>
   	   <id>dev</id><!-- dev环境配置 -->
-  	   <activation>
-  	   	  <activeByDefault>true</activeByDefault><!-- 默认使用的resource环境 -->
-  	   </activation>
   	   <properties>
   	   	  <deploy.type>dev</deploy.type><!-- 这个标签对应的是resources里面$符号中配置的变量 -->
   	   </properties>
+  	   <activation>
+  	   	  <activeByDefault>true</activeByDefault><!-- 默认使用的resource环境 -->
+  	   </activation>
   	</profile>
   	<profile>
   	   <id>beta</id><!-- beta环境配置 -->
