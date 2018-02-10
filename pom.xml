@@ -309,14 +309,14 @@
   	<!-- 资源文件的加载  环境隔离配置，配合profiles进行作用 -->
   	<resources>
   		<resource>
+			<directory>src/main/resources</directory>
+		</resource>
+  		<resource>
   			<directory>src/main/resources.${deploy.type}</directory>
   			<excludes>
   				<exclude>*.jsp</exclude>
   			</excludes>
   		</resource>
-  		<resource>
-			<directory>src/main/resources</directory>
-		</resource>
   	</resources>		
   </build>
   <!-- maven环境隔离配置 -->
