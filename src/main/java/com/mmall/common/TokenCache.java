@@ -21,6 +21,8 @@ import com.google.common.cache.LoadingCache;
 public class TokenCache {
 	private static Logger logger=LoggerFactory.getLogger(TokenCache.class);
 	public static final String TOKEN_PREFIX="token_";
+	
+	
 	/**
 	 * localCache方法
 	 */
