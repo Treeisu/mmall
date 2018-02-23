@@ -23,12 +23,12 @@
   			<property name="ignoreUnresolvablePlaceholders" value="true"></property>
   			<property name="locations">
   				<list>
-  					<value>classpath:datesource.properties</value>
+  					<value>classpath:datasource.properties</value>
   				</list>
   			</property>
   			<property name="fileEncoding" value="utf-8"></property>
   		</bean>  		
-		<!--开始进行datesource数据库连接池配置-->
+		<!--开始进行datasource数据库连接池配置-->
 		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" lazy-init="false">
 			<property name="driverClassName" value="${db.driverClassName}" />
 			<property name="url" value="${db.url}" />

@@ -4,7 +4,7 @@
 	"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
 	<!-- 需要的属性配置文件，比如连接数据库的账号密码。。。 -->
-	<properties resource="datesource.properties" />	
+	<properties resource="datasource.properties" />	
 	<!--需要指定数据库驱的jdbc驱动的jar包位置 -->
 	<classPathEntry location="${db.driverLocation}"/>	
 	<context id="mmall_sql" targetRuntime="MyBatis3">				
