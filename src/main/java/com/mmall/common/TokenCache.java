@@ -24,7 +24,7 @@ public class TokenCache {
 	
 	
 	/**
-	 * localCache方法
+	 * localCache方法  
 	 */
 	public static LoadingCache<String,String> localCache=CacheBuilder.newBuilder()
 			.initialCapacity(1000)//设置缓存的初始化容量
