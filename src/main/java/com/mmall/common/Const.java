@@ -24,8 +24,7 @@ public class Const {
 		Set<String> PRICE_ASC_DESC=Sets.newHashSet("price_desc","price_asc");
 	}
 	/**
-	 * 
-	 * @ClassName: ProductStatus
+	 *
 	 * @Description: TODO 销售状态 【内部类】
 	 * @author Barry
 	 * @date 2017年11月16日 下午1:47:30
@@ -36,7 +35,7 @@ public class Const {
 		NO_SALE(0,"下架状态");
 		private final int code;
 		private final String value;
-		private ProductStatusEnum( int code,String value) {
+		ProductStatusEnum(int code, String value) {
 			this.value = value;
 			this.code = code;
 		}
@@ -59,7 +58,7 @@ public class Const {
 		ONLINE_PAY(1,"在线支付");
 		private final int code;
 		private final String value;
-		private PaymentTypeEnum( int code,String value) {
+		PaymentTypeEnum(int code, String value) {
 			this.value = value;
 			this.code = code;
 		}
@@ -96,7 +95,7 @@ public class Const {
 		ORDER_CLOSE(60,"订单关闭");
 		private final int code;
 		private final String value;
-		private OrderStatusEnum( int code,String value) {
+		OrderStatusEnum(int code, String value) {
 			this.value = value;
 			this.code = code;
 		}
@@ -142,7 +141,7 @@ public class Const {
 		WECHATE(2,"微信支付");
 		private final int code;
 		private final String value;
-		private PayPlatformEnum( int code,String value) {
+		PayPlatformEnum(int code, String value) {
 			this.value = value;
 			this.code = code;
 		}

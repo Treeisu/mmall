@@ -21,26 +21,29 @@ public class DateTimeUtil {
 		DateTimeFormatter dateTimeFormatter=DateTimeFormat.forPattern(formatStr);
 		DateTime dateTime=dateTimeFormatter.parseDateTime(dateTimeStr);				
 		return dateTime.toDate();		
-	};
-	public static String dateToStr(Date date,String formatStr){
+	}
+
+    public static String dateToStr(Date date,String formatStr){
 		if(date==null){
 			return StringUtils.EMPTY;
 		}
 		DateTime dateTime=new DateTime(date);
 		
 		return dateTime.toString(formatStr);
-	};
-	public static Date strToDate(String dateTimeStr){
+	}
+
+    public static Date strToDate(String dateTimeStr){
 		DateTimeFormatter dateTimeFormatter=DateTimeFormat.forPattern(DateTimeUtil.STANDARD_FORMAT);
 		DateTime dateTime=dateTimeFormatter.parseDateTime(dateTimeStr);				
 		return dateTime.toDate();		
-	};
-	public static String dateToStr(Date date){
+	}
+
+    public static String dateToStr(Date date){
 		if(date==null){
 			return StringUtils.EMPTY;
 		}
 		DateTime dateTime=new DateTime(date);
 		
 		return dateTime.toString(DateTimeUtil.STANDARD_FORMAT);
-	};
+	}
 }
