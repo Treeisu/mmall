@@ -1,8 +1,7 @@
 package com.mmall.common;
 /**
- * 
- * @ClassName: ResponseCode
- * @Description: TODO 请求响应的状态枚举类
+ *
+ * 请求响应的状态枚举类
  * @author Barry
  * @date 2017年11月6日 下午3:58:09
  *
