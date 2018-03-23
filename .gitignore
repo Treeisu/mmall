@@ -16,7 +16,8 @@
 
 #maven file 
 target/
-
+#class file
+classes/
 
 #eclipse file 
 .settings/
